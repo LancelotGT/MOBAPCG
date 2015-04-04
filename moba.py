@@ -661,14 +661,19 @@ class MOBAWorld(GatedWorld):
 			self.movers.remove(npc)
 		elif npc == self.agent:
 			print "Player respawned."
-			self.sprites.remove(npc)
-			self.movers.remove(npc)
-			self.agent = None
-			newAgent = Hero((600, 500), 0, self, ELITE)
-			newAgent.setNavigator(Navigator())
-			newAgent.team = 2
-			self.sprites.add(newAgent)
-			self.setPlayerAgent(newAgent)
+
+			position = self.agent.getLocation()
+			displacement = (1075 - position[0] , 1075 - position[1])
+			self.agent.rect = self.agent.rect.move(displacement)
+
+			#self.sprites.remove(npc)
+			#self.movers.remove(npc)
+			#self.agent = None
+			#newAgent = Hero((1600, 1500), 0, self, ELITE)
+			#newAgent.setNavigator(Navigator())
+			#newAgent.team = 2
+			#self.sprites.add(newAgent)
+			#self.setPlayerAgent(newAgent)
 
 
 
