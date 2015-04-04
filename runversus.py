@@ -124,7 +124,14 @@ t11 = Tower(TOWER, (200, 50), world, 1)
 world.addTower(t11)
 t12 = Tower(TOWER, (50, 200), world, 1)
 world.addTower(t12)
-
+t13 = Tower(TOWER, (125, 125), world, 1)
+world.addTower(t13)
+t14 = Tower(TOWER, (300, 50), world, 1)
+world.addTower(t14)
+t15 = Tower(TOWER, (50, 300), world, 1)
+world.addTower(t15)
+t16 = Tower(TOWER, (200, 200), world, 1)
+world.addTower(t16)
 
 # create AStarNavigator using student's astar module
 nav2.setWorld(world)
@@ -133,23 +140,23 @@ b2 = Base(BASE, (1075, 1075), world, 2, MyAlienMinion, MyAlienHero, BUILDRATE)
 b2.setNavigator(nav2)
 world.addBase(b2)
 
-t21 = Tower(TOWER, (1100, 950), world, 2)
-world.addTower(t21)
-t22 = Tower(TOWER, (950, 1100), world, 2)
-world.addTower(t22)
+# t21 = Tower(TOWER, (1100, 950), world, 2)
+# world.addTower(t21)
+# t22 = Tower(TOWER, (950, 1100), world, 2)
+# world.addTower(t22)
 
 
 #hero1 = MyHumanHero((125, 125), 0, world)
 #hero1.setNavigator(cloneDynamicAStarNavigator(astar1, nav1))
 #hero1.team = 1
 #world.addNPC(hero1)
-hero2 = MyAlienHero((1025, 1025), 0, world)
-hero2.setNavigator(AStarNavigator())
-hero2.team = 2
-world.addNPC(hero2)
+# hero2 = MyAlienHero((1025, 1025), 0, world)
+# hero2.setNavigator(AStarNavigator())
+# hero2.team = 2
+# world.addNPC(hero2)
 
 world.makePotentialGates()
 
-hero2.start()
+# hero2.start()
 
 world.run()
