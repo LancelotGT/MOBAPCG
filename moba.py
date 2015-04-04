@@ -230,6 +230,10 @@ class Hero(MOBAAgent):
 		self.maxHitpoints = self.maxHitpoints + 1
 		return None
 
+	def reinit(self):
+		self.level = 0
+		self.maxHitpoints = HEROHITPOINTS
+
 
 ######################
 ### Minion
@@ -666,6 +670,7 @@ class MOBAWorld(GatedWorld):
 			displacement = (1075 - position[0] , 1075 - position[1])
 			self.agent.rect = self.agent.rect.move(displacement)
 
+			self.agent.reinit
 			#self.sprites.remove(npc)
 			#self.movers.remove(npc)
 			#self.agent = None
