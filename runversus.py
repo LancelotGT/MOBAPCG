@@ -10,71 +10,6 @@ from astarnavigator import *
 
 import imp
 
-# def importAStar1(classFile):
-# 	if os.path.exists(classFile + "/astarnavigator.pyc"):
-# 		print "Custom AStarNavigator1"
-# 		sys.path.insert(0, classFile)
-# 		compileall.compile_dir(classFile)
-# 		astar = imp.load_compiled('astar1_module', classFile + "/astarnavigator.pyc")
-# 	else:
-# 		print "Default AStarNavigator1"
-# 		compileall.compile_dir("./One/")
-# 		sys.path.insert(0, "./One/")
-# 		astar = imp.load_compiled('astar1_module', "./One/astarnavigator.pyc")
-# 	return astar
-
-# def importAStar2(classFile):
-# 	if os.path.exists(classFile + "/astarnavigator.pyc"):
-# 		print "Custom AStarNavigator2"
-# 		sys.path.insert(0, classFile)
-# 		compileall.compile_dir(classFile)
-# 		astar = imp.load_compiled('astar2_module', classFile + "/astarnavigator.pyc")
-# 	else:
-# 		print "Default AStarNavigator2"
-# 		compileall.compile_dir("./One/")
-# 		sys.path.insert(0, "./One/")
-# 		astar = imp.load_compiled('astar2_module', "./One/astarnavigator.pyc")
-# 	return astar
-
-# def getNav1(astar_module):
-# 	#print "ClassFile: " + str(classFile)
-# 	nav = astar_module.AStarNavigator()
-# 	return nav
-
-# def getNav2(astar_module):
-# 	#print "ClassFile: " + str(classFile)
-# 	nav = astar_module.AStarNavigator()
-# 	return nav
-
-# def cloneDynamicAStarNavigator(astar_module, nav):
-# 	newnav = astar_module.AStarNavigator()
-# 	newnav.world = nav.world
-# 	newnav.pathnodes = nav.pathnodes
-# 	newnav.pathnetwork = nav.pathnetwork
-# 	return newnav
-
-def importHero1(classFile):
-	if os.path.exists(classFile + "/MyHero.py"):
-		sys.path.insert(0, classFile)
-		compileall.compile_dir(classFile)
-		
-	if os.path.exists(classFile + "/MyHero.pyc"):
-		hero = imp.load_compiled('hero1_module', classFile + "/MyHero.pyc")
-		return hero
-	else:
-		sys.exit("ERROR: Either no MyHero.py file found at " + classFile + " or MyHero.py compilation failed.")
-
-def importMinion1(classFile):
-	if os.path.exists(classFile + "/MyMinion.py"):
-		sys.path.insert(0, classFile)
-		compileall.compile_dir(classFile)
-		
-	if os.path.exists(classFile + "/MyMinion.pyc"):
-		minion = imp.load_compiled('minion1_module', classFile + "/MyMinion.pyc")
-		return minion
-	else:
-		sys.exit("ERROR: Either no MyMinion.py file found at " + classFile + " or MyMinion.py compilation failed.")
-
 def importHero2(classFile):
 	if os.path.exists(classFile + "/MyHero.py"):
 		sys.path.insert(0, classFile)
@@ -115,41 +50,27 @@ else:
 classFile1 = "./" + directory1
 classFile2 = "./" + directory2
 
-# import custom astar modules (if necessary) and create navigators for each student
-# astar1 = importAStar1(classFile1)
-# astar2 = importAStar2(classFile2)
-
 nav1 = AStarNavigator()
 nav2 = AStarNavigator()
 
 # imp.reload(moba)
 # mod = reload(sys.modules['moba']) #use imp.reload for Python 3  
 # vars().update(mod.__dict__)
-#from moba import TDBase
 
 # import hero modules
-hero1 = importHero1(classFile1)
 hero2 = importHero2(classFile2)
 
 # import minion modules
-minion1 = importMinion1(classFile1)
 minion2 = importMinion2(classFile2)
 
 # get hero classes from hero modules
-heroclass1 = getattr(hero1, "MyHero")
 heroclass2 = getattr(hero2, "MyHero")
 # get minion classes from minion modules
-minionclass1 = getattr(minion1, "MyMinion")
 minionclass2 = getattr(minion2, "MyMinion")
 
 
 ########################
 ### Minion Subclasses
-
-class MyHumanMinion(minionclass1):
-	
-	def __init__(self, position, orientation, world, image = NPC, speed = SPEED, viewangle = 360, hitpoints = HITPOINTS, firerate = FIRERATE, bulletclass = SmallBullet):
-		minionclass1.__init__(self, position, orientation, world, image, speed, viewangle, hitpoints, firerate, bulletclass)
 
 class MyAlienMinion(minionclass2):
 	
@@ -160,13 +81,7 @@ class MyAlienMinion(minionclass2):
 ########################
 ### Hero Subclasses
 
-class MyHumanHero(heroclass1):
-	
-	def __init__(self, position, orientation, world, image = AGENT, speed = SPEED, viewangle = 360, hitpoints = HEROHITPOINTS, firerate = FIRERATE, bulletclass = BigBullet, dodgerate = DODGERATE, areaeffectrate = AREAEFFECTRATE, areaeffectdamage = AREAEFFECTDAMAGE):
-		heroclass1.__init__(self, position, orientation, world, image, speed, viewangle, hitpoints, firerate, bulletclass, dodgerate, areaeffectrate, areaeffectdamage)
-
 class MyAlienHero(heroclass2):
-	
 	def __init__(self, position, orientation, world, image = ELITE, speed = SPEED, viewangle = 360, hitpoints = HEROHITPOINTS, firerate = FIRERATE, bulletclass = BigBullet, dodgerate = DODGERATE, areaeffectrate = AREAEFFECTRATE, areaeffectdamage = AREAEFFECTDAMAGE):
 		heroclass2.__init__(self, position, orientation, world, image, speed, viewangle, hitpoints, firerate, bulletclass, dodgerate, areaeffectrate, areaeffectdamage)
 
@@ -195,13 +110,13 @@ agent = Hero((600, 500), 0, world, AGENT)
 world.setPlayerAgent(agent)
 world.initializeTerrain(obstacles, (0, 0, 0), 4)
 agent.setNavigator(Navigator())
-agent.team = 1
+agent.team = 2
 world.debugging = True
 
 # create AStarNavigator using student's astar module
 nav1.setWorld(world)
 
-b1 = TDBase(BASE, (25, 25), world, 1, MyHumanMinion, MyHumanHero, BUILDRATE)
+b1 = TDBase(BASE, (25, 25), world, 1, BUILDRATE)
 b1.setNavigator(nav1)
 world.addBase(b1)
 
@@ -235,7 +150,6 @@ world.addNPC(hero2)
 
 world.makePotentialGates()
 
-#hero1.start()
 hero2.start()
 
 world.run()

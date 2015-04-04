@@ -348,9 +348,9 @@ class Base(Mover):
 			if isinstance(a, Hero):
 				hero = a
 				break
-		if hero == None:
-			# spawn new hero
-			self.spawnNPC(self.heroType)
+		# if hero == None:
+		# 	# spawn new hero
+		# 	self.spawnNPC(self.heroType)
 
 	def damage(self, amount):
 		if len(self.world.getTowersForTeam(self.getTeam())) == 0:
@@ -394,19 +394,17 @@ class Base(Mover):
 
 class TDBase(Base):
 
-	def __init__(self, image, position, world, team = None, minionType = Minion, heroType = Hero, buildrate = BUILDRATE, hitpoints = BASEHITPOINTS, firerate = BASEFIRERATE, bulletclass = BaseBullet):
+	def __init__(self, image, position, world, team = None, buildrate = BUILDRATE, hitpoints = BASEHITPOINTS, firerate = BASEFIRERATE, bulletclass = BaseBullet):
 		Base.__init__(self, image, position, world, team = 0)
 		self.team = team
 		self.hitpoints = hitpoints
 		self.buildTimer = buildrate
 		self.buildRate = buildrate
 		self.nav = None
-		self.minionType = minionType
 		self.firerate = firerate
 		self.firetimer = 0
 		self.canfire = True
 		self.bulletclass = bulletclass
-		self.heroType = heroType
 
 	# Override
 	def update(self, delta):
@@ -450,6 +448,10 @@ class TDBase(Base):
 		# if hero == None:
 		# 	# spawn new hero
 		# 	self.spawnNPC(self.heroType)
+
+	# Override
+	def spawnNPC(self, type, angle = 0.0):
+		pass
 
 
 
