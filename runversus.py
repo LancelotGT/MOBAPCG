@@ -5,51 +5,53 @@ from constants import *
 from utils import *
 from core import *
 from agents import *
+from moba import *
+from astarnavigator import *
 
 import imp
 
-def importAStar1(classFile):
-	if os.path.exists(classFile + "/astarnavigator.pyc"):
-		print "Custom AStarNavigator1"
-		sys.path.insert(0, classFile)
-		compileall.compile_dir(classFile)
-		astar = imp.load_compiled('astar1_module', classFile + "/astarnavigator.pyc")
-	else:
-		print "Default AStarNavigator1"
-		compileall.compile_dir("./One/")
-		sys.path.insert(0, "./One/")
-		astar = imp.load_compiled('astar1_module', "./One/astarnavigator.pyc")
-	return astar
+# def importAStar1(classFile):
+# 	if os.path.exists(classFile + "/astarnavigator.pyc"):
+# 		print "Custom AStarNavigator1"
+# 		sys.path.insert(0, classFile)
+# 		compileall.compile_dir(classFile)
+# 		astar = imp.load_compiled('astar1_module', classFile + "/astarnavigator.pyc")
+# 	else:
+# 		print "Default AStarNavigator1"
+# 		compileall.compile_dir("./One/")
+# 		sys.path.insert(0, "./One/")
+# 		astar = imp.load_compiled('astar1_module', "./One/astarnavigator.pyc")
+# 	return astar
 
-def importAStar2(classFile):
-	if os.path.exists(classFile + "/astarnavigator.pyc"):
-		print "Custom AStarNavigator2"
-		sys.path.insert(0, classFile)
-		compileall.compile_dir(classFile)
-		astar = imp.load_compiled('astar2_module', classFile + "/astarnavigator.pyc")
-	else:
-		print "Default AStarNavigator2"
-		compileall.compile_dir("./One/")
-		sys.path.insert(0, "./One/")
-		astar = imp.load_compiled('astar2_module', "./One/astarnavigator.pyc")
-	return astar
+# def importAStar2(classFile):
+# 	if os.path.exists(classFile + "/astarnavigator.pyc"):
+# 		print "Custom AStarNavigator2"
+# 		sys.path.insert(0, classFile)
+# 		compileall.compile_dir(classFile)
+# 		astar = imp.load_compiled('astar2_module', classFile + "/astarnavigator.pyc")
+# 	else:
+# 		print "Default AStarNavigator2"
+# 		compileall.compile_dir("./One/")
+# 		sys.path.insert(0, "./One/")
+# 		astar = imp.load_compiled('astar2_module', "./One/astarnavigator.pyc")
+# 	return astar
 
-def getNav1(astar_module):
-	#print "ClassFile: " + str(classFile)
-	nav = astar_module.AStarNavigator()
-	return nav
+# def getNav1(astar_module):
+# 	#print "ClassFile: " + str(classFile)
+# 	nav = astar_module.AStarNavigator()
+# 	return nav
 
-def getNav2(astar_module):
-	#print "ClassFile: " + str(classFile)
-	nav = astar_module.AStarNavigator()
-	return nav
+# def getNav2(astar_module):
+# 	#print "ClassFile: " + str(classFile)
+# 	nav = astar_module.AStarNavigator()
+# 	return nav
 
-def cloneDynamicAStarNavigator(astar_module, nav):
-	newnav = astar_module.AStarNavigator()
-	newnav.world = nav.world
-	newnav.pathnodes = nav.pathnodes
-	newnav.pathnetwork = nav.pathnetwork
-	return newnav
+# def cloneDynamicAStarNavigator(astar_module, nav):
+# 	newnav = astar_module.AStarNavigator()
+# 	newnav.world = nav.world
+# 	newnav.pathnodes = nav.pathnodes
+# 	newnav.pathnetwork = nav.pathnetwork
+# 	return newnav
 
 def importHero1(classFile):
 	if os.path.exists(classFile + "/MyHero.py"):
@@ -114,13 +116,16 @@ classFile1 = "./" + directory1
 classFile2 = "./" + directory2
 
 # import custom astar modules (if necessary) and create navigators for each student
-astar1 = importAStar1(classFile1)
-astar2 = importAStar2(classFile2)
+# astar1 = importAStar1(classFile1)
+# astar2 = importAStar2(classFile2)
 
-nav1 = getNav1(astar1)
-nav2 = getNav2(astar2)
+nav1 = AStarNavigator()
+nav2 = AStarNavigator()
 
-from moba import *
+# imp.reload(moba)
+# mod = reload(sys.modules['moba']) #use imp.reload for Python 3  
+# vars().update(mod.__dict__)
+#from moba import TDBase
 
 # import hero modules
 hero1 = importHero1(classFile1)
@@ -196,7 +201,7 @@ world.debugging = True
 # create AStarNavigator using student's astar module
 nav1.setWorld(world)
 
-b1 = Base(BASE, (25, 25), world, 1, MyHumanMinion, MyHumanHero, BUILDRATE)
+b1 = TDBase(BASE, (25, 25), world, 1, MyHumanMinion, MyHumanHero, BUILDRATE)
 b1.setNavigator(nav1)
 world.addBase(b1)
 
@@ -224,7 +229,7 @@ world.addTower(t22)
 #hero1.team = 1
 #world.addNPC(hero1)
 hero2 = MyAlienHero((1025, 1025), 0, world)
-hero2.setNavigator(cloneDynamicAStarNavigator(astar2, nav2))
+hero2.setNavigator(AStarNavigator())
 hero2.team = 2
 world.addNPC(hero2)
 

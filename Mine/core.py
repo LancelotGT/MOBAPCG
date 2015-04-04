@@ -787,7 +787,6 @@ class GameWorld():
 		self.camera = [0, 0]
 		# unobstructed places
 		self.destinations = {}
-		self.ticks = 0
 	
 	def getPoints(self):
 		return self.points
@@ -897,7 +896,6 @@ class GameWorld():
 
 		while True:
 			clock.tick(TICK)
-			self.ticks = self.ticks + 1
 			delta = clock.get_rawtime()
 			self.handleEvents()
 			self.update(delta)
