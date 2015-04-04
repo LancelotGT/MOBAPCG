@@ -106,7 +106,7 @@ obstacles = obstacles + mirror
 
 
 world = MOBAWorld(SEED, dims, dims, 1, 60)
-agent = Hero((600, 500), 0, world, AGENT)
+agent = Hero((600, 500), 0, world, ELITE)
 world.setPlayerAgent(agent)
 world.initializeTerrain(obstacles, (0, 0, 0), 4)
 agent.setNavigator(Navigator())

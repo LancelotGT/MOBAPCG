@@ -901,7 +901,7 @@ class GameWorld():
 			delta = clock.get_rawtime()
 			self.handleEvents()
 			self.update(delta)
-			self.sprites.update(delta) 
+			self.sprites.update(delta)
 			#print "obstacles"
 			#for o in self.obstacles:
 			#	print o.pos
@@ -1025,6 +1025,7 @@ class GameWorld():
 			if self.sprites is not None:
 				self.sprites.remove(npc)
 			self.movers.remove(npc)
+
 
 	def getVisible(self, position, orientation, viewangle, type = None):
 		visible = []

@@ -202,6 +202,8 @@ class Hero(MOBAAgent):
 			if self.areaEffectTimer >= self.areaEffectRate:
 				self.canAreaEffect = True
 				self.areaEffectTimer = 0
+		if (self.world.ticks % 20) == 0:
+			print "Hitpoints: ", self.hitpoints
 
 	def dodge(self, angle = None):
 		if self.canDodge:
@@ -650,6 +652,23 @@ class MOBAWorld(GatedWorld):
 				self.score[team] = 0
 			return self.score[team]
 		return 0
+
+	def deleteNPC(self, npc):
+		if npc in self.npcs:
+			self.npcs.remove(npc)
+			if self.sprites is not None:
+				self.sprites.remove(npc)
+			self.movers.remove(npc)
+		elif npc == self.agent:
+			print "Player respawned."
+			self.sprites.remove(npc)
+			self.movers.remove(npc)
+			self.agent = None
+			newAgent = Hero((600, 500), 0, self, ELITE)
+			newAgent.setNavigator(Navigator())
+			newAgent.team = 2
+			self.sprites.add(newAgent)
+			self.setPlayerAgent(newAgent)
 
 
 

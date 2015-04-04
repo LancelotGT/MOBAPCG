@@ -20,11 +20,9 @@ class StateAgent(Agent, StateMachine):
 		Agent.__init__(self, image, position, orientation, speed, world, hitpoints, firerate, bulletclass)
 		StateMachine.__init__(self, states)
 
-		
 	def update(self, delta):
 		Agent.update(self, delta)
 		StateMachine.update(self, delta)
-	
 	
 	def getStateType(self):
 		return type(self.state)
