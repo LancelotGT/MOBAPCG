@@ -36,6 +36,7 @@ MAXSPAWN = 4
 AREAEFFECTDAMAGE = 25
 AREAEFFECTRATE = 60
 AREAEFFECTRANGE = 2
+MAXLIVES = 3
 
 ######################
 ### MOBABullet
@@ -459,6 +460,14 @@ class TDBase(Base):
 	def spawnNPC(self, type, angle = 0.0):
 		pass
 
+	# Override
+	def die(self):
+		Mover.die(self)
+		print "base dies", self
+		self.world.deleteBase(self)
+		print "Congratulations, you win!"
+		writeGameStatistics(self)
+		sys.exit(0)
 
 
 #####################
@@ -664,13 +673,18 @@ class MOBAWorld(GatedWorld):
 				self.sprites.remove(npc)
 			self.movers.remove(npc)
 		elif npc == self.agent:
-			print "Player respawned."
-
-			position = self.agent.getLocation()
-			displacement = (1075 - position[0] , 1075 - position[1])
-			self.agent.rect = self.agent.rect.move(displacement)
-
-			self.agent.reinit
+			self.playerDeaths += 1
+			if self.playerDeaths == MAXLIVES:
+				print "Sorry, you lose!"
+				writeGameStatistics(self)
+				sys.exit(0)
+			else:
+				print "Player respawned."
+				print "Number of lives left: ", MAXLIVES - self.playerDeaths
+				position = self.agent.getLocation()
+				displacement = (1075 - position[0] , 1075 - position[1])
+				self.agent.rect = self.agent.rect.move(displacement)
+				self.agent.reinit
 			#self.sprites.remove(npc)
 			#self.movers.remove(npc)
 			#self.agent = None

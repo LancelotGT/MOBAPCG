@@ -788,6 +788,9 @@ class GameWorld():
 		# unobstructed places
 		self.destinations = {}
 		self.ticks = 0
+
+		# game statistics
+		self.playerDeaths = 0
 	
 	def getPoints(self):
 		return self.points

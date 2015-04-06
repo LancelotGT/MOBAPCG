@@ -136,10 +136,6 @@ t162 = Tower(TOWER, (250, 250), world, 1)
 world.addTower(t162)
 t17 = Tower(TOWER, (300, 300), world, 1)
 world.addTower(t17)
-t18 = Tower(TOWER, (350, 350), world, 1)
-world.addTower(t18)
-t19 = Tower(TOWER, (400, 400), world, 1)
-world.addTower(t19)
 
 # create AStarNavigator using student's astar module
 nav2.setWorld(world)
