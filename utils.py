@@ -354,5 +354,7 @@ def drawCross(surface, point, color = (0, 0, 0), size = 2, width = 1):
 def writeGameStatistics(world):
 	currentTime = time.strftime("%b-%d-%Y %H:%M:%S", time.gmtime())
 	file = open("player.txt", "a")
-	file.write(currentTime + "\t" + str(world.playerDeaths) + "\n")
+	file.write(currentTime + "\t" + str(world.playerDeaths) + "\t" + str(world.damageTaken) + "\t" + str(world.damageDealt) \
+		+ "\t" + str(world.deathsByCollision) + "\t" + str(world.damageToTower) + "\t" + str(world.damageToBase) \
+		+ "\t" + str(world.numOfDodges) + "\t" + str(world.numOfBullets) + "\n")
 

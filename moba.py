@@ -70,14 +70,22 @@ class MOBABullet(Bullet):
 			#Already dished damage to another agent, so just keep track of who did the damage
 			thing.lastDamagedBy = self.owner
 			ret = True
+			if isinstance(thing, Hero):
+				self.world.damageTaken += self.damage
 			# Should the agent get some score? Heros score by shooting Heros
 			self.world.damageCaused(self.owner, thing, self.damage)
 		elif isinstance(thing, Base) and (thing.getTeam() == None or thing.getTeam() != self.owner.getTeam()):
 			thing.damage(self.damage)
 			ret = True
+			if isinstance(self.owner, Hero):
+				self.world.damageToBase += self.damage
+				self.world.damageDealt += self.damage
 		elif isinstance(thing, Tower) and (thing.getTeam() == None or thing.getTeam() != self.owner.getTeam()):
 			thing.damage(self.damage)
 			ret = True
+			if isinstance(self.owner, Hero):
+				self.world.damageToTower += self.damage
+				self.world.damageDealt += self.damage
 		return ret
 
 ######################
@@ -141,6 +149,7 @@ class MOBAAgent(VisionAgent):
 		StateAgent.collision(self, thing)
 		# Agent dies if it hits an obstacle
 		if isinstance(thing, Obstacle):
+			self.world.deathsByCollision += 1
 			self.die()
 
 	def getMaxHitpoints(self):
@@ -208,6 +217,7 @@ class Hero(MOBAAgent):
 
 	def dodge(self, angle = None):
 		if self.canDodge:
+			self.world.numOfDodges += 1
 			if angle == None:
 				angle = corerandom.uniform(0, 360)
 			vector = (math.cos(math.radians(angle)), -math.sin(math.radians(angle)))
@@ -234,6 +244,15 @@ class Hero(MOBAAgent):
 	def reinit(self):
 		self.level = 0
 		self.maxHitpoints = HEROHITPOINTS
+
+	# override
+	def shoot(self):
+		bullet = MOBAAgent.shoot(self)
+		# If a bullet is spawned, increase its damage by agent's level
+		if bullet is not None:
+			bullet.damage = bullet.damage + self.level
+		self.world.numOfBullets += 1
+		return bullet
 
 
 ######################
