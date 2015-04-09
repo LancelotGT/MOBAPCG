@@ -912,10 +912,11 @@ class GameWorld():
 			
 	def drawWorld(self):
 		#self.screen.blit(self.background, (0, 0))
-		offsetX = self.camera[0] - self.agent.rect.center[0]
-		offsetY = self.camera[1] - self.agent.rect.center[1]
+		offsetX = self.camera[0] - 500 - self.agent.rect.center[0]              #-500 to initialize the camera on the bottom left corner
+		offsetY = self.camera[1] - 500 - self.agent.rect.center[1]
 		self.screen.fill((255, 255, 255))
 		self.screen.blit(self.background, [offsetX, offsetY])
+
 		if self.debugging:
 			self.background.blit(self.debug, (0, 0))
 		self.sprites.draw(self.background)
@@ -935,8 +936,8 @@ class GameWorld():
 				
 	def doMouseUp(self):
 		pos = pygame.mouse.get_pos()
-		offsetX = pos[0] + self.agent.rect.center[0] - self.camera[0]
-		offsetY = pos[1] + self.agent.rect.center[1] - self.camera[1]
+		offsetX = pos[0] + self.agent.rect.center[0] - self.camera[0] + 500           #+500 to balance the -500 from drawWorld
+		offsetY = pos[1] + self.agent.rect.center[1] - self.camera[1] + 500
 		self.agent.navigateTo([offsetX, offsetY])
 		
 

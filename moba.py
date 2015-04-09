@@ -667,7 +667,7 @@ class MOBAWorld(GatedWorld):
 			print "Player respawned."
 
 			position = self.agent.getLocation()
-			displacement = (1075 - position[0] , 1075 - position[1])
+			displacement = (1055 - position[0] , 1055 - position[1])
 			self.agent.rect = self.agent.rect.move(displacement)
 
 			self.agent.reinit
