@@ -692,7 +692,6 @@ class MOBAWorld(GatedWorld):
 				self.sprites.remove(npc)
 			self.movers.remove(npc)
 		elif npc == self.agent:
-<<<<<<< HEAD
 			print "Player respawned."
 
 			position = self.agent.getLocation()
@@ -700,7 +699,6 @@ class MOBAWorld(GatedWorld):
 			self.agent.rect = self.agent.rect.move(displacement)
 
 			self.agent.reinit
-=======
 			self.playerDeaths += 1
 			if self.playerDeaths == MAXLIVES:
 				print "Sorry, you lose!"
@@ -713,7 +711,6 @@ class MOBAWorld(GatedWorld):
 				displacement = (1075 - position[0] , 1075 - position[1])
 				self.agent.rect = self.agent.rect.move(displacement)
 				self.agent.reinit
->>>>>>> 87978ea34a249e103ce0d26b489bc39ffe7c1a6a
 			#self.sprites.remove(npc)
 			#self.movers.remove(npc)
 			#self.agent = None
