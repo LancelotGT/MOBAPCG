@@ -306,7 +306,7 @@ class Base(Mover):
 		self.canfire = True
 		self.bulletclass = bulletclass
 		self.heroType = heroType
-	
+
 	def setNavigator(self, nav):
 		self.nav = nav
 	
@@ -705,7 +705,6 @@ class MOBAWorld(GatedWorld):
 				writeGameStatistics(self)
 				sys.exit(0)
 			else:
-				print "Player respawned."
 				print "Number of lives left: ", MAXLIVES - self.playerDeaths
 				position = self.agent.getLocation()
 				displacement = (1075 - position[0] , 1075 - position[1])

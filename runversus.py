@@ -137,6 +137,10 @@ world.addTower(t15)
 # t17 = Tower(TOWER, (300, 300), world, 1)
 # world.addTower(t17)
 
+
+world.setAreaFeature()
+
+
 # create AStarNavigator using student's astar module
 nav2.setWorld(world)
 

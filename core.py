@@ -798,8 +798,9 @@ class GameWorld():
 		self.damageToBase = 0
 		self.numOfDodges = 0
 		self.numOfBullets = 0
-
 	
+		self.areaFeature = None
+
 	def getPoints(self):
 		return self.points
 	
@@ -1092,6 +1093,11 @@ class GameWorld():
 
 	def getBullets(self):
 		return self.bullets
+
+
+	def setAreaFeature(self):
+		self.areaFeature = calculateTowerProximityFeature(self)
+
 
 ############################
 ### GATE
