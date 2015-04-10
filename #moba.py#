@@ -650,7 +650,7 @@ class MOBAWorld(GatedWorld):
 	
 	def addTower(self, tower):
 		self.towers.append(tower)
-		if self.sprites is not None:
+x		if self.sprites is not None:
 			self.sprites.add(tower)
 		self.movers.append(tower)
 			

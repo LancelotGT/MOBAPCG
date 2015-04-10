@@ -32,6 +32,43 @@ def importMinion2(classFile):
 	else:
 		sys.exit("ERROR: Either no MyMinion.py file found at " + classFile + " or MyMinion.py compilation failed.")
 
+def importEnemy1(thisClassFile):
+	if os.path.exists(thisClassFile + "enemyAgents.py"):
+		sys.path.insert(0, thisClassFile)
+		compileall.compile_dir(thisClassFile)
+		
+	if os.path.exists(thisClassFile + "enemyAgents.pyc"):
+		minion = imp.load_compiled('enemyMinion1_module', thisClassFile + "enemyAgents.pyc")
+		return minion
+	else:
+		sys.exit("ERROR: Either no enemyAgents.py file found at " + thisClassFile + " or enemyAgents.py compilation failed.")
+
+
+def importEnemy2(thisClassFile):
+	if os.path.exists(thisClassFile + "enemyAgents2.py"):
+		sys.path.insert(0, thisClassFile)
+		compileall.compile_dir(thisClassFile)
+		
+	if os.path.exists(thisClassFile + "enemyAgents2.pyc"):
+		minion = imp.load_compiled('enemyMinion2_module', thisClassFile + "enemyAgents2.pyc")
+		return minion
+	else:
+		sys.exit("ERROR: Either no enemyAgents2.py file found at " + thisClassFile + " or enemyAgents2.py compilation failed.")
+
+
+def importEnemy3(thisClassFile):
+	if os.path.exists(thisClassFile + "enemyAgents3.py"):
+		sys.path.insert(0, thisClassFile)
+		compileall.compile_dir(thisClassFile)
+		
+	if os.path.exists(thisClassFile + "enemyAgents3.pyc"):
+		minion = imp.load_compiled('enemyMinion3_module', thisClassFile + "enemyAgents3.pyc")
+		return minion
+	else:
+		sys.exit("ERROR: Either no enemyAgents3.py file found at " + thisClassFile + " or enemyAgents3.py compilation failed.")
+
+
+
 directory1 = ""
 directory2 = ""
 
@@ -49,6 +86,7 @@ else:
 # use the given directorys' classfiles
 classFile1 = "./" + directory1
 classFile2 = "./" + directory2
+thisClassFile = "./"
 
 nav1 = AStarNavigator()
 nav2 = AStarNavigator()
@@ -62,11 +100,20 @@ hero2 = importHero2(classFile2)
 
 # import minion modules
 minion2 = importMinion2(classFile2)
+enemyMinion1 = importEnemy1(thisClassFile)
+enemyMinion2 = importEnemy2(thisClassFile)
+enemyMinion3 = importEnemy3(thisClassFile)
+
+
 
 # get hero classes from hero modules
 heroclass2 = getattr(hero2, "MyHero")
+
 # get minion classes from minion modules
 minionclass2 = getattr(minion2, "MyMinion")
+enemyMinionClass1 = getattr(enemyMinion1, "enemyMinion")
+enemyMinionClass2 = getattr(enemyMinion2, "enemyMinion2")
+enemyMinionClass3 = getattr(enemyMinion3, "enemyMinion3")
 
 
 ########################
@@ -76,6 +123,21 @@ class MyAlienMinion(minionclass2):
 	
 	def __init__(self, position, orientation, world, image = JACKAL, speed = SPEED, viewangle = 360, hitpoints = HITPOINTS, firerate = FIRERATE, bulletclass = SmallBullet):
 		minionclass2.__init__(self, position, orientation, world, image, speed, viewangle, hitpoints, firerate, bulletclass)
+
+class enemyMinion1(enemyMinionClass1):
+	
+	def __init__(self, position, orientation, world, image = JACKAL, speed = SPEED, viewangle = 360, hitpoints = HITPOINTS, firerate = FIRERATE, bulletclass = SmallBullet):
+		enemyMinionClass1.__init__(self, position, orientation, world, image, speed, viewangle, hitpoints, firerate, bulletclass)
+
+class enemyMinion2(enemyMinionClass2):
+	
+	def __init__(self, position, orientation, world, image = JACKAL, speed = SPEED, viewangle = 360, hitpoints = HITPOINTS, firerate = FIRERATE, bulletclass = SmallBullet):
+		enemyMinionClass2.__init__(self, position, orientation, world, image, speed, viewangle, hitpoints, firerate, bulletclass)
+
+class enemyMinion3(enemyMinionClass3):
+	
+	def __init__(self, position, orientation, world, image = JACKAL, speed = SPEED, viewangle = 360, hitpoints = HITPOINTS, firerate = FIRERATE, bulletclass = SmallBullet):
+		enemyMinionClass3.__init__(self, position, orientation, world, image, speed, viewangle, hitpoints, firerate, bulletclass)
 
 
 ########################
@@ -110,13 +172,13 @@ agent = Hero((1055, 1055), 0, world, ELITE)
 world.setPlayerAgent(agent)
 world.initializeTerrain(obstacles, (0, 0, 0), 4)
 agent.setNavigator(nav1)
-agent.team = 2
+agent.setTeam(2)
 world.debugging = True
 
 # create AStarNavigator using student's astar module
 nav1.setWorld(world)
 
-b1 = TDBase(BASE, (25, 25), world, 1, BUILDRATE)
+b1 = TDBase(BASE, (25, 25), world, enemyMinion1, enemyMinion2, enemyMinion3, 1)
 b1.setNavigator(nav1)
 world.addBase(b1)
 
@@ -163,7 +225,7 @@ world.addBase(b2)
 # hero2.team = 2
 # world.addNPC(hero2)
 
-world.makePotentialGates()
+#world.makePotentialGates()
 
 # hero2.start()
 

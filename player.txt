@@ -1,3 +1,4 @@
 Time	PlayerDeaths	DamageTaken	DamageDealt	DeathsByCollision	DamageToTower	DamageToBase	NumOfDodges	NumOfBullets
 Apr-06-2015 02:46:59	3	110	40	1	40	0	6	30
 Apr-09-2015 22:39:52	3	70	0	0	0	0	0	0
+Apr-10-2015 23:30:09	3	152	0	0	0	0	0	0
