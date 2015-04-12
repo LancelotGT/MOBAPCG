@@ -15,7 +15,7 @@ from clonenav import *
 ### - MOBABulletse tell MOBAAgents who did the damage
 ### - MOBAAgent.creditKill, Hero.creditKill
 
-HEROHITPOINTS = 50
+HEROHITPOINTS = 150
 BUILDRATE = 180
 TOWERFIRERATE = 15
 BASEFIRERATE = 20
@@ -30,12 +30,19 @@ BASEBULLETRANGE = 200
 BASEBULLETDAMAGE = 10
 BASEBULLETSPEED = (20, 20)
 BASEBULLET = "sprites/bullet2.gif"
-SPAWNNUM = 3
-MAXSPAWN = 4
+SPAWNNUM = 6
+MAXSPAWN = 6
 AREAEFFECTDAMAGE = 25
 AREAEFFECTRATE = 60
 AREAEFFECTRANGE = 2
-MAXLIVES = 3
+MAXLIVES = 6
+
+SMALLBULLETSPEED = (20, 20)
+SMALLBULLETDAMAGE = 1
+BIGBULLETSPEED = (100, 100)
+BIGBULLETDAMAGE = 10
+FIRERATE = 5
+DODGERATE = 10
 
 ######################
 ### MOBABullet
@@ -536,7 +543,7 @@ class TDBase(Base):
 		print "base dies", self
 		self.world.deleteBase(self)
 		print "Congratulations, you win!"
-		writeGameStatistics(self)
+		writeGameStatistics(self.world)
 		sys.exit(0)
 
 

@@ -5,7 +5,7 @@ from constants import *
 from utils import *
 from core import *
 from agents import *
-from moba import *
+from mobaLevel1 import *
 from astarnavigator import *
 
 import imp
@@ -158,13 +158,13 @@ dims = (1200, 1200)
 
 #obstacles = [[(250, 150), (600, 160), (590, 400), (260, 390)],
 #			 [(800, 170), (1040, 140), (1050, 160), (1040, 500), (810, 310)]]
-obstacles = [[(400, 150), (850, 150), (900, 300), (1050, 350), (1050, 800), (1010, 900), (990, 900), (900, 750), (900, 500), (700, 300), (450, 300), (350, 210), (350, 190)]
-			 ]
+# obstacles = [[(400, 150), (850, 150), (900, 300), (1050, 350), (1050, 800), (1010, 900), (990, 900), (900, 750), (900, 500), (700, 300), (450, 300), (350, 210), (350, 190)]
+# 			 ]
+obstacles = []
 
+# mirror = map(lambda poly: map(lambda point: (dims[0]-point[0], dims[1]-point[1]), poly), obstacles)
 
-mirror = map(lambda poly: map(lambda point: (dims[0]-point[0], dims[1]-point[1]), poly), obstacles)
-
-obstacles = obstacles + mirror
+# obstacles = obstacles + mirror
 
 
 
@@ -189,10 +189,10 @@ t12 = Tower(TOWER, (50, 200), world, 1)
 world.addTower(t12)
 t13 = Tower(TOWER, (125, 125), world, 1)
 world.addTower(t13)
-t14 = Tower(TOWER, (300, 50), world, 1)
-world.addTower(t14)
-t15 = Tower(TOWER, (50, 300), world, 1)
-world.addTower(t15)
+# t14 = Tower(TOWER, (300, 50), world, 1)
+# world.addTower(t14)
+# t15 = Tower(TOWER, (50, 300), world, 1)
+# world.addTower(t15)
 
 
 world.setAreaFeature()
