@@ -17,8 +17,8 @@ from clonenav import *
 
 HEROHITPOINTS = 150
 BUILDRATE = 180
-TOWERFIRERATE = 15
-BASEFIRERATE = 20
+TOWERFIRERATE = 10
+BASEFIRERATE = 10
 BULLETRANGE = 150
 SMALLBULLETRANGE = 150
 BIGBULLETRANGE = 250
@@ -36,8 +36,8 @@ AREAEFFECTDAMAGE = 25
 AREAEFFECTRATE = 60
 AREAEFFECTRANGE = 2
 MAXLIVES = 4
-BASEHITPOINTS = 75
-TOWERHITPOINTS = 50
+BASEHITPOINTS = 100
+TOWERHITPOINTS = 80
 
 SMALLBULLETSPEED = (20, 20)
 SMALLBULLETDAMAGE = 1
@@ -452,12 +452,16 @@ class TDBase(Base):
 			self.spawnNPC1()
 			self.spawnNPC2()
 			self.spawnNPC3()
+			self.spawnNPC1()
+			self.spawnNPC2()
+			self.spawnNPC3()
 
 		if self.canfire == False:
 			self.firetimer = self.firetimer + 1
 			if self.firetimer >= self.firerate:
 				self.canfire = True
 				self.firetimer = 0
+
 		if self.canfire and len(self.world.getTowersForTeam(self.getTeam())) == 0:
 			targets = []
 			minions = []

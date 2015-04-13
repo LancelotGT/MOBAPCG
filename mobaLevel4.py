@@ -15,10 +15,10 @@ from clonenav import *
 ### - MOBABulletse tell MOBAAgents who did the damage
 ### - MOBAAgent.creditKill, Hero.creditKill
 
-HEROHITPOINTS = 150
+HEROHITPOINTS = 100
 BUILDRATE = 180
-TOWERFIRERATE = 15
-BASEFIRERATE = 20
+TOWERFIRERATE = 10
+BASEFIRERATE = 10
 BULLETRANGE = 150
 SMALLBULLETRANGE = 150
 BIGBULLETRANGE = 250
@@ -36,13 +36,13 @@ AREAEFFECTDAMAGE = 25
 AREAEFFECTRATE = 60
 AREAEFFECTRANGE = 2
 MAXLIVES = 4
-BASEHITPOINTS = 75
-TOWERHITPOINTS = 50
+BASEHITPOINTS = 150
+TOWERHITPOINTS = 100
 
 SMALLBULLETSPEED = (20, 20)
 SMALLBULLETDAMAGE = 1
-BIGBULLETSPEED = (40, 40)
-BIGBULLETDAMAGE = 10
+BIGBULLETSPEED = (20, 20)
+BIGBULLETDAMAGE = 5
 FIRERATE = 10
 DODGERATE = 10
 ######################
@@ -452,12 +452,16 @@ class TDBase(Base):
 			self.spawnNPC1()
 			self.spawnNPC2()
 			self.spawnNPC3()
+			self.spawnNPC1()
+			self.spawnNPC2()
+			self.spawnNPC3()
 
 		if self.canfire == False:
 			self.firetimer = self.firetimer + 1
 			if self.firetimer >= self.firerate:
 				self.canfire = True
 				self.firetimer = 0
+
 		if self.canfire and len(self.world.getTowersForTeam(self.getTeam())) == 0:
 			targets = []
 			minions = []
