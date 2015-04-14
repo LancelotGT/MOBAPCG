@@ -798,6 +798,7 @@ class GameWorld():
 		self.damageToBase = 0
 		self.numOfDodges = 0
 		self.numOfBullets = 0
+		self.levelDifficulty = {}
 	
 		self.areaFeature = None
 

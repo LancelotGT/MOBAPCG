@@ -351,13 +351,18 @@ def drawCross(surface, point, color = (0, 0, 0), size = 2, width = 1):
 	pygame.draw.line(surface, color, (point[0]+size, point[1]-size), (point[0]-size, point[1]+size), width)
 
 
+### function that will write the game statistics and configuration of level (including the score)
 def writeGameStatistics(world):
+	score = float(world.damageDealt) / (world.playerDeaths + 1) # need to be more sophisticated
 	currentTime = time.strftime("%b-%d-%Y %H:%M:%S", time.gmtime())
 	file = open("player.txt", "a")
 	file.write(currentTime + "\t" + str(world.playerDeaths) + "\t" + str(world.damageTaken) + "\t" + str(world.damageDealt) \
 		+ "\t" + str(world.deathsByCollision) + "\t" + str(world.damageToTower) + "\t" + str(world.damageToBase) \
 		+ "\t" + str(world.numOfDodges) + "\t" + str(world.numOfBullets) + "\n")
 
+	file = open("level.txt", "a")
+	file.write(str(world.levelDifficulty["numOfTower"]) + "\t" + str(world.levelDifficulty["powerOfTower"]) + "\t" + str(world.levelDifficulty["powerOfBase"]) + "\t" + str(world.levelDifficulty["powerOfHero"]) \
+		+ "\t" + str(world.levelDifficulty["healthOfHero"]) + "\t" + str(score) + "\n")
 
 
 # function that will determine the size of the area where our hero can be shot by a tower
