@@ -73,19 +73,16 @@ directory1 = ""
 directory2 = ""
 
 if len(sys.argv) < 3:
-	print "Usage:\t\tpython runversus.py directory_name_1 directory_name_2"
-	print "Results in simulation of directory_name_1's Heroes and Minions versus directory_name_2's Heroes and Minions"
+	print "Usage:\t\tpython runversus.py directory_name_1"
+	print "Results in simulation of directory_name_1's Heroes and Minions"
 	print "example directory names: \"One\", \"Two\", \"Three\", (baseline heroes & minions) and \"Mine\" (custom hero & minions)."
-	print "default:\tpython runversus.py \"Mine\" \"Mine\"\n"
+	print "default:\tpython runversus.py \"Mine\" \n"
 	directory1 = "Mine"
-	directory2 = "Mine"
 else:
 	directory1 = sys.argv[1]
-	directory2 = sys.argv[2]
 
 # use the given directorys' classfiles
 classFile1 = "./" + directory1
-classFile2 = "./" + directory2
 thisClassFile = "./"
 
 nav1 = AStarNavigator()
@@ -98,10 +95,10 @@ nav2 = AStarNavigator()
 
 
 # import hero modules
-hero2 = importHero2(classFile2)
+hero2 = importHero2(classFile1)
 
 # import minion modules
-minion2 = importMinion2(classFile2)
+minion2 = importMinion2(classFile1)
 enemyMinion1 = importEnemy1(thisClassFile)
 enemyMinion2 = importEnemy2(thisClassFile)
 enemyMinion3 = importEnemy3(thisClassFile)

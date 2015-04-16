@@ -402,3 +402,32 @@ def calculateTowerProximityFeature(world):
   floatTotalArea = (float)(totalArea)/(float)(singleArea)
 
   return floatTotalArea
+
+
+
+def PCG(world, score, regr):
+
+
+  
+  features = [random.randint(4, 12), 15, 15, 7.5]
+  coeff = random.uniform(0.6, 1)
+  features.append(features[0]*coeff)
+
+  while (regr.predict(features) < score) :
+    features[0] += 1
+    features[5] += coeff
+  while (regr.predict(features) > score) :
+    features[0] -= 1 
+    features[5] -= coeff
+
+  while (regr.predict(features) < score) and (coeff > 0.6) :
+    coeff -= 0.05
+    features[5] = features[0]*coeff
+
+
+  #connaissant l'équation et deux paramètres sur 3 (3 ou 5 ...?) on trouve la valeur du 3ème qui donne le score voulu
+
+
+  # randomly place features[0] towers on the field, multiple conditions : not in obstacle, not too close from the other towers, not too close from the hero base
+  # displace them such that the covered area corresponds to features[5]
+  # it's okay, launch the game
