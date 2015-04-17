@@ -425,9 +425,6 @@ def PCG(world, score, regr):
     features[5] = features[0]*coeff
 
 
-  #connaissant l'équation et deux paramètres sur 3 (3 ou 5 ...?) on trouve la valeur du 3ème qui donne le score voulu
-
-
   # randomly place features[0] towers on the field, multiple conditions : not in obstacle, not too close from the other towers, not too close from the hero base
   # displace them such that the covered area corresponds to features[5]
   # it's okay, launch the game
