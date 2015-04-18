@@ -361,8 +361,8 @@ def writeGameStatistics(world):
 		+ "\t" + str(world.numOfDodges) + "\t" + str(world.numOfBullets) + "\n")
 
 	file = open("level.txt", "a")
-	file.write(str(world.levelDifficulty["numOfTower"]) + "\t" + str(world.levelDifficulty["powerOfTower"]) + "\t" + str(world.levelDifficulty["powerOfBase"]) + "\t" + str(world.levelDifficulty["powerOfHero"]) \
-		+ "\t" + str(world.levelDifficulty["healthOfHero"]) + "\t" + str(world.areaFeature) + "\t" + str(score) + "\n")
+	file.write(str(world.levelDifficulty["numOfTower"]) + "\t" + str(world.levelDifficulty["powerOfTower"]) + "\t" + str(world.levelDifficulty["powerOfHero"]) \
+        + "\t" + str(world.areaFeature) + "\t" + str(score) + "\n")
 
 
 # function that will determine the size of the area where our hero can be shot by a tower
@@ -437,9 +437,6 @@ def PCG(world, score, regr):
     features[5] = features[0]*coeff
 
 
-  #connaissant l'équation et deux paramètres sur 3 (3 ou 5 ...?) on trouve la valeur du 3ème qui donne le score voulu
-
-
   towers = []
   # randomly place features[0] towers on the field, multiple conditions : not in obstacle, not too close from the other towers, not too close from the hero base
   for i in range(0, features[0]) :
@@ -470,7 +467,7 @@ def PCG(world, score, regr):
       first = true
       
       for otherTower in towers :
-        if tower = otherTower :
+        if tower == otherTower :
           continue
         if first :
           loc1 = otherTower

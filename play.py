@@ -1,6 +1,6 @@
 ### This is the main function of the game
 if __name__ == "__main__":
-	numOfGame = sum(1 for line in open("player.txt")) - 1
+	numOfGame = sum(1 for line in open("player.txt"))
 	print "Number of Game: ", numOfGame
 	if numOfGame == 0:
 		execfile("runLevel1.py")

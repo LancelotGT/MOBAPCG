@@ -156,15 +156,15 @@ class MyAlienHero(heroclass2):
 ### SET UP WORLD
 dims = (1200, 1200)
 
-#obstacles = [[(250, 150), (600, 160), (590, 400), (260, 390)],
-#			 [(800, 170), (1040, 140), (1050, 160), (1040, 500), (810, 310)]]
-# obstacles = [[(400, 150), (850, 150), (900, 300), (1050, 350), (1050, 800), (1010, 900), (990, 900), (900, 750), (900, 500), (700, 300), (450, 300), (350, 210), (350, 190)]
-# 			 ]
-obstacles = []
+# obstacles = [[(250, 150), (600, 160), (590, 400), (260, 390)],
+# 			 [(800, 170), (1040, 140), (1050, 160), (1040, 500), (810, 310)]]
+obstacles = [[(400, 150), (850, 150), (900, 300), (1050, 350), (1050, 800), (1010, 900), (990, 900), (900, 750), (900, 500), (700, 300), (450, 300), (350, 210), (350, 190)]
+			 ]
+# obstacles = []
 
-# mirror = map(lambda poly: map(lambda point: (dims[0]-point[0], dims[1]-point[1]), poly), obstacles)
+mirror = map(lambda poly: map(lambda point: (dims[0]-point[0], dims[1]-point[1]), poly), obstacles)
 
-# obstacles = obstacles + mirror
+obstacles = obstacles + mirror
 
 
 
@@ -183,11 +183,11 @@ b1 = TDBase(BASE, (25, 25), world, enemyMinion1, enemyMinion2, enemyMinion3, 1)
 b1.setNavigator(nav1)
 world.addBase(b1)
 
-t11 = Tower(TOWER, (200, 50), world, 1)
+t11 = Tower(TOWER, (500, 50), world, 1)
 world.addTower(t11)
-t12 = Tower(TOWER, (50, 200), world, 1)
+t12 = Tower(TOWER, (50, 500), world, 1)
 world.addTower(t12)
-t13 = Tower(TOWER, (125, 125), world, 1)
+t13 = Tower(TOWER, (150, 150), world, 1)
 world.addTower(t13)
 # t14 = Tower(TOWER, (300, 50), world, 1)
 # world.addTower(t14)
