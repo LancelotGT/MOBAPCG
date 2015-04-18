@@ -405,18 +405,30 @@ def calculateTowerProximityFeature(world):
 
 
 
+def isFar(towers, towerLoc, coeff) :
+
+  thebool = false
+  for tower in towers :
+    if (distance(tower, towerLoc) < 0.6*coeff*TOWERBULLETRANGE) :
+      return false
+    if (distance(tower, towerLoc) < 3*TOWERBULLETRANGE) :
+      thebool = true
+
+  return thebool
+
+
+
+
 def PCG(world, score, regr):
 
-
-  
   features = [random.randint(4, 12), 15, 15, 7.5]
   coeff = random.uniform(0.6, 1)
   features.append(features[0]*coeff)
 
-  while (regr.predict(features) < score) :
+  while (regr.predict(features) > score) :
     features[0] += 1
     features[5] += coeff
-  while (regr.predict(features) > score) :
+  while (regr.predict(features) < score) :
     features[0] -= 1 
     features[5] -= coeff
 
@@ -425,6 +437,76 @@ def PCG(world, score, regr):
     features[5] = features[0]*coeff
 
 
+  #connaissant l'équation et deux paramètres sur 3 (3 ou 5 ...?) on trouve la valeur du 3ème qui donne le score voulu
+
+
+  towers = []
   # randomly place features[0] towers on the field, multiple conditions : not in obstacle, not too close from the other towers, not too close from the hero base
-  # displace them such that the covered area corresponds to features[5]
-  # it's okay, launch the game
+  for i in range(0, features[0]) :
+    towerLoc = (random.randint(0, world.getDimensions()[0]), random.randint(0, world.getDimensions()[1]))
+
+    while ( (not isGood(towerLoc, world, 50))
+            or (distance(towerLoc, (25, 25)) > 2/3*distance((25, 25), (1075, 1075)))
+            or (not isFar(towers[0:i], towerLoc, coeff)) ) :
+      towerLoc = (random.randint(0, world.getDimensions()[0]), random.randint(0, world.getDimensions()[1]))
+
+    towers.append(towerLoc)
+
+  for tower in towers :
+    world.addTower(Tower(TOWER, tower, world, 1))
+    
+  world.setAreaFeature()
+  
+
+
+  while (world.areaFeature > 1.05*features[5]) :
+
+    locs = []
+    dists = []
+
+    for tower in towers :
+      loc1 = (0,0)
+      loc2 = (0,0)
+      first = true
+      
+      for otherTower in towers :
+        if tower = otherTower :
+          continue
+        if first :
+          loc1 = otherTower
+          first = false
+
+        if (distance(tower, loc1) > distance(tower, otherTower)):
+          loc2 = loc1
+          loc1 = otherTower
+        elif (distance(tower, loc2) > distance(tower, otherTower)):
+          loc2 = otherTower
+          
+      if ( (not rayTraceWorld(tower, loc1, world.getLines()))
+           or (not rayTraceWorld(tower, loc2, world.getLines()))
+           or (not rayTraceWorld(loc1, loc2, world.getLines())) ) :
+        dists.append(0)
+      else :
+        dists.append(distance(tower, loc1) + distance(tower, loc2))
+      locs.append(loc1, loc2)
+    
+    index = dists.index(max(dists))
+    if (dists[index] == 0) :
+      break
+      
+    if (distance(locs[index][0], towers[index]) > 2*TOWERBULLETRANGE) :
+      thePosition = ((2*locs[index][0][0] + towers[index][0])/3, (2*locs[index][0][1] + towers[index][1])/3)
+      world.getTowers()[index].rect.move(thePosition)
+    else :
+      thePosition = ((locs[index][0][0] + locs[index][1][0])/2, (locs[index][0][1] + locs[index][1][1])/2)
+      world.getTowers()[index].rect.move(thePosition)
+
+    previousAreaFeature = world.areaFeature
+    world.setAreaFeature()
+    if (abs(world.areaFeature-previousAreaFeature) < 0.05) :
+      break
+
+
+
+
+
