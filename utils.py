@@ -353,7 +353,7 @@ def drawCross(surface, point, color = (0, 0, 0), size = 2, width = 1):
 
 ### function that will write the game statistics and configuration of level (including the score)
 def writeGameStatistics(world):
-	score = float(world.damageDealt) / (world.playerDeaths + 1 + world.damageTaken) # need to be more sophisticated
+	score = float(world.damageDealt) / (1 + world.damageTaken) # need to be more sophisticated
 	currentTime = time.strftime("%b-%d-%Y %H:%M:%S", time.gmtime())
 	file = open("player.txt", "a")
 	file.write(currentTime + "\t" + str(world.playerDeaths) + "\t" + str(world.damageTaken) + "\t" + str(world.damageDealt) \

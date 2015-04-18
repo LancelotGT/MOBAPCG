@@ -1,20 +1,27 @@
 from sklearn.linear_model import LinearRegression
 import numpy as np
-### parse player.txt to get the training dataset
-levelData = open("level.txt")
-dataset = np.loadtxt(levelData, delimiter = "\t")
-print(dataset.shape)
-print(dataset)
+    
+class playerModel():
+    ### train on level.txt file
+    def __init__(self):
+        levelData = open("level.txt")
+        dataset = np.loadtxt(levelData, delimiter = "\t")
+        self.dataset_X_train = dataset[:, 0:6]
+        self.dataset_Y_train = dataset[:, 6]
+        self.regr = LinearRegression()
+        self.regr.fit(self.dataset_X_train, self.dataset_Y_train)
+        print('Coefficients: \n', self.regr.coef_)
 
-dataset_X_train = dataset[:, 0:6]
-dataset_Y_train = dataset[:, 6]
-print(dataset_X_train)
-print(dataset_Y_train)
+    def testScore(self, test_X):
+        score = self.regr.predict(test_X)
+        print("Predicted Score: %.2f" % np.mean(score))
+        return np.mean(score)
 
-regr = LinearRegression()
-regr.fit(dataset_X_train, dataset_Y_train)
+    def getCoefficients(self):
+        return self.regr.coef_
 
-print('Coefficients: \n', regr.coef_)
+    def getTrainingX(self):
+        return self.dataset_X_train
 
-test_X = [4, 15, 15, 7.5, 75, 2]
-print("Predicted Score: %.2f" % np.mean((regr.predict(test_X))))
+    def getTrainingY(self):
+        return self.dataset_Y_train
