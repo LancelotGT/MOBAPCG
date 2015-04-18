@@ -378,13 +378,16 @@ def calculateTowerProximityFeature(world):
 
   for tower in world.getTowers() :
     center = tower.getLocation()
-    orig = (math.floor((tower.getLocation()[0]-TOWERBULLETRANGE) / 10) , math.floor((tower.getLocation()[1]-TOWERBULLETRANGE) / 10) )
-    end = (math.floor((tower.getLocation()[0]+TOWERBULLETRANGE) / 10) , math.floor((tower.getLocation()[1]+TOWERBULLETRANGE) / 10) )
+    orig = (max(0, math.floor((center[0]-TOWERBULLETRANGE) / 10)) , max(0, math.floor((center[1]-TOWERBULLETRANGE) / 10)) )
+    end = (min(world.dimensions[0]/10 - 1, math.floor((center[0]+TOWERBULLETRANGE) / 10)) , min(world.dimensions[1]/10 - 1, math.floor((center[1]+TOWERBULLETRANGE) / 10)) )
 
-    for x in range((int)(orig[1]), (int)(end[1])) :
-      for y in range((int)(orig[0]), (int)(end[0])) :
+
+    for y in range((int)(orig[1]), (int)(end[1])+1) :
+      for x in range((int)(orig[0]), (int)(end[0])+1) :
         thePoint = (10*x + 5, 10*y + 5)
-        if (distance(thePoint, center) < TOWERBULLETRANGE) :
+        if (distance(thePoint, center) <= TOWERBULLETRANGE) :
+          if (mapApprox[x][y] == 0) :
+            totalArea += 1
           mapApprox[x][y] = 1
           if first :
             singleArea += 1
@@ -392,14 +395,9 @@ def calculateTowerProximityFeature(world):
     first = False
 
 
-  for x in range(0, world.dimensions[0]/10) :
-    for y in range(0, world.dimensions[1]/10) :
-      if (mapApprox[x][y] == 1):
-        totalArea += 1
-
-
 
   floatTotalArea = (float)(totalArea)/(float)(singleArea)
+  print floatTotalArea
 
   return floatTotalArea
 
