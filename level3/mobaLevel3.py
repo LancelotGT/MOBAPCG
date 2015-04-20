@@ -1,5 +1,6 @@
 import sys, pygame, math, numpy, random, time, copy
 from pygame.locals import * 
+
 from constants import *
 from utils import *
 from core import *
@@ -14,10 +15,10 @@ from clonenav import *
 ### - MOBABulletse tell MOBAAgents who did the damage
 ### - MOBAAgent.creditKill, Hero.creditKill
 
-HEROHITPOINTS = 50
+HEROHITPOINTS = 100
 BUILDRATE = 180
-TOWERFIRERATE = 15
-BASEFIRERATE = 20
+TOWERFIRERATE = 10
+BASEFIRERATE = 10
 BULLETRANGE = 150
 SMALLBULLETRANGE = 150
 BIGBULLETRANGE = 250
@@ -29,13 +30,21 @@ BASEBULLETRANGE = 200
 BASEBULLETDAMAGE = 10
 BASEBULLETSPEED = (20, 20)
 BASEBULLET = "sprites/bullet2.gif"
-SPAWNNUM = 3
-MAXSPAWN = 4
+SPAWNNUM = 4
+MAXSPAWN = 6
 AREAEFFECTDAMAGE = 25
 AREAEFFECTRATE = 60
 AREAEFFECTRANGE = 2
-MAXLIVES = 3
+MAXLIVES = 4
+BASEHITPOINTS = 100
+TOWERHITPOINTS = 100
 
+SMALLBULLETSPEED = (20, 20)
+SMALLBULLETDAMAGE = 1
+BIGBULLETSPEED = (20, 20)
+BIGBULLETDAMAGE = 5
+FIRERATE = 10
+DODGERATE = 10
 ######################
 ### MOBABullet
 ###
@@ -219,7 +228,7 @@ class Hero(MOBAAgent):
 			if angle == None:
 				angle = corerandom.uniform(0, 360)
 			vector = (math.cos(math.radians(angle)), -math.sin(math.radians(angle)))
-			self.rect = self.rect.move(vector[0]*self.getRadius()*1.5, vector[1]*self.getRadius()*1.5)
+			self.rect = self.rect.move(vector[0]*self.getRadius()*3, vector[1]*self.getRadius()*3)
 			self.canDodge = False
 
 	def areaEffect(self):
@@ -535,7 +544,7 @@ class TDBase(Base):
 		print "base dies", self
 		self.world.deleteBase(self)
 		print "Congratulations, you win!"
-		writeGameStatistics(self)
+		writeGameStatistics(self.world)
 		sys.exit(0)
 
 
@@ -565,6 +574,7 @@ class Tower(Mover):
 	
 	def setTeam(self, team):
 		self.team = team
+
 
 	def damage(self, amount):
 		self.hitpoints = self.hitpoints - amount
