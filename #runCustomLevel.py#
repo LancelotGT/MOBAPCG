@@ -184,20 +184,7 @@ b1.setNavigator(nav1)
 world.addBase(b1)
 
 thePlayer = playerModel()
-
 PCG(world, 150, thePlayer)
-
-t11 = Tower(TOWER, (200, 50), world, 1)
-world.addTower(t11)
-t12 = Tower(TOWER, (50, 200), world, 1)
-world.addTower(t12)
-t13 = Tower(TOWER, (125, 125), world, 1)
-world.addTower(t13)
-t14 = Tower(TOWER, (300, 50), world, 1)
-world.addTower(t14)
-t15 = Tower(TOWER, (50, 300), world, 1)
-world.addTower(t15)
-
 
 world.setAreaFeature()
 

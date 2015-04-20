@@ -417,22 +417,22 @@ def isFar(towers, towerLoc, coeff) :
 
 
 
-def PCG(world, score, regr):
+def PCG(world, score, player):
 
-  features = [random.randint(4, 12), 15, 15, 7.5]
+  features = [random.randint(4, 12), 15]
   coeff = random.uniform(0.6, 1)
   features.append(features[0]*coeff)
 
-  while (regr.predict(features) > score) :
+  while (player.test_score(features) > score) :
     features[0] += 1
-    features[5] += coeff
-  while (regr.predict(features) < score) :
+    features[2] += coeff
+  while (player.test_score(features) < score) :
     features[0] -= 1 
-    features[5] -= coeff
+    features[2] -= coeff
 
-  while (regr.predict(features) < score) and (coeff > 0.6) :
+  while (player.test_score(features) < score) and (coeff > 0.6) :
     coeff -= 0.05
-    features[5] = features[0]*coeff
+    features[2] = features[0]*coeff
 
 
   towers = []
@@ -454,7 +454,7 @@ def PCG(world, score, regr):
   
 
 
-  while (world.areaFeature > 1.05*features[5]) :
+  while (world.areaFeature > 1.05*features[2]) :
 
     locs = []
     dists = []
@@ -501,7 +501,9 @@ def PCG(world, score, regr):
     if (abs(world.areaFeature-previousAreaFeature) < 0.05) :
       break
 
+  coeffs = player.getCoefficients()
+  features[1] = score - coeffs[0]*features[0] - coeffs[2]*world.areaFeature
 
-
+  return features
 
 
