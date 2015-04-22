@@ -1,6 +1,8 @@
 import sys, pygame, math, numpy, random, time, copy
+
 from pygame.locals import * 
 from constants import *
+from core import *
 
 
 ########################
@@ -353,15 +355,17 @@ def drawCross(surface, point, color = (0, 0, 0), size = 2, width = 1):
 
 ### function that will write the game statistics and configuration of level (including the score)
 def writeGameStatistics(world):
-	score = float(world.damageDealt) / (1 + world.damageTaken) # need to be more sophisticated
-	currentTime = time.strftime("%b-%d-%Y %H:%M:%S", time.gmtime())
-	file = open("player.txt", "a")
-	file.write(currentTime + "\t" + str(world.playerDeaths) + "\t" + str(world.damageTaken) + "\t" + str(world.damageDealt) \
-		+ "\t" + str(world.deathsByCollision) + "\t" + str(world.damageToTower) + "\t" + str(world.damageToBase) \
-		+ "\t" + str(world.numOfDodges) + "\t" + str(world.numOfBullets) + "\n")
+    timeElapse = time.clock() - world.getStartTime()
+    print "Time Elapse: ", timeElapse
+    score = float(world.damageDealt) / (1 + world.damageTaken) # need to be more sophisticated
+    currentTime = time.strftime("%b-%d-%Y %H:%M:%S", time.gmtime())
+    file = open("player.txt", "a")
+    file.write(currentTime + "\t" + timeElapse + "\t" + str(world.playerDeaths) + "\t" + str(world.damageTaken) + "\t" + str(world.damageDealt) \
+        + "\t" + str(world.deathsByCollision) + "\t" + str(world.damageToTower) + "\t" + str(world.damageToBase) \
+        + "\t" + str(world.numOfDodges) + "\t" + str(world.numOfBullets) + "\n")
 
-	file = open("level.txt", "a")
-	file.write(str(world.levelDifficulty["numOfTower"]) + "\t" + str(world.levelDifficulty["powerOfTower"]) + "\t" + str(world.levelDifficulty["powerOfHero"]) \
+    file = open("level.txt", "a")
+    file.write(str(world.levelDifficulty["numOfTower"]) + "\t" + str(world.levelDifficulty["powerOfTower"]) + "\t" + str(world.levelDifficulty["powerOfHero"]) \
         + "\t" + str(world.areaFeature) + "\t" + str(score) + "\n")
 
 
@@ -397,7 +401,6 @@ def calculateTowerProximityFeature(world):
 
 
   floatTotalArea = (float)(totalArea)/(float)(singleArea)
-  print floatTotalArea
 
   return floatTotalArea
 
@@ -415,25 +418,24 @@ def isFar(towers, towerLoc, coeff) :
   return thebool
 
 
+def PCG(world, score, regr):
 
-
-def PCG(world, score, player):
-
-  features = [random.randint(4, 12), 15]
+  features = [random.randint(4, 12), 30, 5]
   coeff = random.uniform(0.6, 1)
   features.append(features[0]*coeff)
 
-  while (player.test_score(features) > score) :
+  coeffs = regr.getCoefficients()
+
+  while (regr.testScore(features) > score) :
     features[0] += 1
-    features[2] += coeff
-  while (player.test_score(features) < score) :
+    features[3] += coeff
+  while (regr.testScore(features) < score) :
     features[0] -= 1 
-    features[2] -= coeff
+    features[3] -= coeff
 
-  while (player.test_score(features) < score) and (coeff > 0.6) :
+  while (regr.testScore(features) < score) and (coeff > 0.6) :
     coeff -= 0.05
-    features[2] = features[0]*coeff
-
+    features[3] = features[0]*coeff
 
   towers = []
   # randomly place features[0] towers on the field, multiple conditions : not in obstacle, not too close from the other towers, not too close from the hero base
@@ -449,12 +451,12 @@ def PCG(world, score, player):
 
   for tower in towers :
     world.addTower(Tower(TOWER, tower, world, 1))
-    
+
   world.setAreaFeature()
   
 
 
-  while (world.areaFeature > 1.05*features[2]) :
+  while (world.areaFeature > 1.05*features[3]) :
 
     locs = []
     dists = []
@@ -501,9 +503,23 @@ def PCG(world, score, player):
     if (abs(world.areaFeature-previousAreaFeature) < 0.05) :
       break
 
-  coeffs = player.getCoefficients()
-  features[1] = score - coeffs[0]*features[0] - coeffs[2]*world.areaFeature
+  features[1] = score - coeffs[0]*features[0] - coeffs[2]*features[2] - coeffs[3]*world.areaFeature
 
+  print "la"
+  print features
   return features
 
 
+
+
+
+def isGood(point, world, threshold):
+	if point[0] > 0 and point[0] < world.dimensions[0] and point[1] > 0 and point[1] < world.dimensions[1]:
+		for o in world.obstacles:
+			if pointInsidePolygonPoints(point, o.getPoints()):
+				return False
+		for l in world.getLines():
+			if minimumDistance(l, point) < threshold:
+				return False
+		return True
+	return False

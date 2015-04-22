@@ -514,14 +514,16 @@ class Navigator():
 		return None
 		
 	def drawPathNetwork(self, surface):
-		if self.pathnetwork is not None:
-			for l in self.pathnetwork:
-				pygame.draw.line(surface, (0, 0, 255), l[0], l[1], 1)
+		pass
+		# if self.pathnetwork is not None:
+		# 	for l in self.pathnetwork:
+		# 		pygame.draw.line(surface, (0, 0, 255), l[0], l[1], 1)
 		
 	def drawNavMesh(self, surface):
-		if self.navmesh is not None:
-			for p in self.navmesh:
-				drawPolygon(p, surface, (0, 255, 0), 1, False)
+		pass
+		# if self.navmesh is not None:
+		# 	for p in self.navmesh:
+		# 		drawPolygon(p, surface, (0, 255, 0), 1, False)
 			
 			
 #	def notify(self):
@@ -712,8 +714,8 @@ class ManualObstacle(Obstacle):
 		if sprite is not None:
 			dec = Decoration(sprite, (0, 0))
 			pos = (0, 0)
-			for x in xrange((self.rect.width*2)/dec.rect.width):
-				for y in xrange((self.rect.height*2)/dec.rect.height):
+			for x in xrange((self.rect.width*2) / dec.rect.width):
+				for y in xrange((self.rect.height*2) / dec.rect.height):
 					pos = (((x/2)*dec.rect.width)+corerandom.uniform(0, dec.rect.width/5.0), ((y/2)*dec.rect.height)+corerandom.uniform(0, dec.rect.height/5.0))
 					orient = corerandom.uniform(0, 360.0)
 					if pointInsidePolygonPoints((pos[0]+dec.rect.width/2.0, pos[1]+dec.rect.height/2.0), points):
@@ -725,6 +727,7 @@ class ManualObstacle(Obstacle):
 	def draw(self, parent):
 		Obstacle.draw(self, parent)
 		self.sprites.draw(self.surface)
+		pygame.draw.polygon(self.surface, (100, 0, 255), self.points, 0)
 
 ############################
 ### GameWorld
@@ -895,6 +898,7 @@ class GameWorld():
 #			self.movers.add(r)
 
 	def run(self):
+		self.startTime = time.clock()
 		self.sprites = pygame.sprite.RenderPlain((self.agent))
 #		for r in self.resources:
 #			self.sprites.add(r)
@@ -936,6 +940,8 @@ class GameWorld():
 		for o in self.obstacles:
 			o.draw(self.background)
 		#pygame.display.flip()
+		edgePoints = ((0, 0), (self.dimensions[0] - 0, 0), (self.dimensions[0] - 0, self.dimensions[1]), (0, self.dimensions[1]))
+		pygame.draw.polygon(self.debug, (255, 255, 0), edgePoints, 10)
 		
 	def handleEvents(self): 
 		events = pygame.event.get()
@@ -953,7 +959,6 @@ class GameWorld():
 		offsetY = pos[1] + self.agent.rect.center[1] - self.camera[1] + 500
 		self.agent.navigateTo([offsetX, offsetY])
 		
-
 	def doKeyDown(self, key):
 		if key == 32: #space
 			self.agent.shoot()
@@ -1098,6 +1103,9 @@ class GameWorld():
 
 	def setAreaFeature(self):
 		self.areaFeature = calculateTowerProximityFeature(self)
+
+	def getStartTime(self):
+		return self.startTime
 
 
 ############################
