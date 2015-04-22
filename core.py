@@ -727,7 +727,7 @@ class ManualObstacle(Obstacle):
 	def draw(self, parent):
 		Obstacle.draw(self, parent)
 		self.sprites.draw(self.surface)
-		pygame.draw.polygon(self.surface, (100, 0, 255), self.points, 0)
+		pygame.draw.polygon(self.surface, (128, 128, 128), self.points, 0)
 
 ############################
 ### GameWorld
