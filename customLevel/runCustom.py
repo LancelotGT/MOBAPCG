@@ -67,25 +67,6 @@ def importEnemy3(thisClassFile):
     else:
         sys.exit("ERROR: Either no enemyAgents3.py file found at " + thisClassFile + " or enemyAgents3.py compilation failed.")
 
-
-
-directory1 = ""
-directory2 = ""
-
-if len(sys.argv) < 3:
-    # print "Usage:\t\tpython runversus.py directory_name_1 directory_name_2"
-    # print "Results in simulation of directory_name_1's Heroes and Minions versus directory_name_2's Heroes and Minions"
-    # print "example directory names: \"One\", \"Two\", \"Three\", (baseline heroes & minions) and \"Mine\" (custom hero & minions)."
-    # print "default:\tpython runversus.py \"Mine\" \"Mine\"\n"
-    directory1 = "Mine"
-    directory2 = "Mine"
-else:
-    directory1 = sys.argv[1]
-    directory2 = sys.argv[2]
-
-# use the given directorys' classfiles
-# classFile1 = "./" + directory1
-# classFile2 = "./" + directory2
 thisClassFile = "./customLevel/"
 
 nav1 = AStarNavigator()
