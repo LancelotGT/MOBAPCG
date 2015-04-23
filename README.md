@@ -23,3 +23,7 @@ This repo is for Game AI final project. The goal of this project is to implement
 
 ### Development Logs
 04/12 Created three training levels. The entrance of the game is play.py. It will call certain training level according to the current number of finished games. For example, the entrance for level1 is runLevel1.py, and the moba configuration for level 1 is in mobaLevel1.py.
+
+04/21 Write two python wrappers for linear regression and support vector regression, based on Scikit-Learn.
+
+04/22 Implement Simulated Annealing from scratch to do optimization
