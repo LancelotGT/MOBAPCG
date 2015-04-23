@@ -423,20 +423,29 @@ def PCG(world, score, regr):
   coeff = random.uniform(0.6, 1)
   features.append(features[0]*coeff)
 
-  coeffs = regr.getCoefficients()
+  coeffs = regr.getParams()
+  print coeffs
 
   while (regr.testScore(features) > score) :
+    print "features", regr.testScore(features)
+    print "score: ", score
     features[0] += 1
     features[3] += coeff
   while (regr.testScore(features) < score) :
+    print "features", regr.testScore(features)
+    print "score: ", score
     features[0] -= 1 
     features[3] -= coeff
 
+    print "features", regr.testScore(features)
+    print "score: ", score
+  
   while (regr.testScore(features) < score) and (coeff > 0.6) :
     coeff -= 0.05
     features[3] = features[0]*coeff
 
   towers = []
+  
   # randomly place features[0] towers on the field, multiple conditions : not in obstacle, not too close from the other towers, not too close from the hero base
   for i in range(0, features[0]) :
     towerLoc = (random.randint(0, world.getDimensions()[0]), random.randint(0, world.getDimensions()[1]))

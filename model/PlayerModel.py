@@ -68,6 +68,18 @@ class PlayerModel():
         # print "normalize test: ", new_data
         return new_data
 
+    ### return the minmax list of input raw data
+    def getMinMaxList(self):
+        return self.maxmin_list
+
+    ### return number of columns of input data
+    def getColumns(self):
+        return self.col
+
+    ### return number of rows of input data
+    def getRows(self):
+        return self.row
+
 
 ### a python wrapper to build player model using linear regression
 class LR(PlayerModel):
@@ -82,7 +94,7 @@ class LR(PlayerModel):
 
     def testScore(self, test_X):
         score = self.regr.predict(self.normalizeTest(test_X))
-        # print("Predicted Score: %.2f" % np.mean(score))
+        print("Predicted Score: %.2f" % np.mean(score))
         return np.mean(score)
 
     def getParams(self):
@@ -116,7 +128,9 @@ class SVR(PlayerModel):
         print self.regr.get_params()
 
     def testScore(self, test_X):
+        # print "testx: ", test_X
         score = self.regr.predict(self.normalizeTest(test_X))
+        # print("Predicted Score1: %.2f" % score)
         # print("Predicted Score: %.2f" % np.mean(score))
         return np.mean(score)
 

@@ -163,8 +163,8 @@ b1.setNavigator(nav1)
 world.addBase(b1)
 
 ### use one of the two models
-# thePlayer = LR()
-thePlayer = SVR()
+thePlayer = LR()
+# thePlayer = SVR()
 
 PCG(world, 0.5, thePlayer)
 
