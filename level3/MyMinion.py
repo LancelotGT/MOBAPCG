@@ -1,9 +1,5 @@
 import sys, pygame, math, numpy, random, time, copy
-from pygame.locals import * 
-
-from constants import *
-from utils import *
-from core import *
+from pygame.locals import *
 from mobaLevel3 import *
 
 class MyMinion(Minion):

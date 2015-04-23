@@ -4,11 +4,13 @@ from matplotlib import pyplot
 import numpy as np
 import copy
 
+LEVELPATH = "level.txt"
+
 class PlayerModel():
 
     def __init__(self):
         # get and parse the data
-        levelData = open("../level.txt")
+        levelData = open(LEVELPATH)
         dataset = np.loadtxt(levelData, delimiter = "\t")
         self.dataset = dataset
         print "raw data: "

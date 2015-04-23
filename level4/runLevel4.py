@@ -1,14 +1,8 @@
 import os, sys, pygame, math, numpy, random, time, copy, compileall
 from pygame.locals import *
 
-sys.path.append("/home/ubuntu/Desktop/MOBAPCG")
-
-from constants import *
-from utils import *
-from core import *
-from agents import *
+# sys.path.append("/home/ubuntu/Desktop/MOBAPCG")
 from mobaLevel4 import *
-from astarnavigator import *
 
 import imp
 
@@ -70,8 +64,6 @@ def importEnemy3(thisClassFile):
 		sys.exit("ERROR: Either no enemyAgents3.py file found at " + thisClassFile + " or enemyAgents3.py compilation failed.")
 
 # use the given directorys' classfiles
-classFile1 = "./" + directory1
-classFile2 = "./" + directory2
 thisClassFile = "./level4/"
 
 nav1 = AStarNavigator()

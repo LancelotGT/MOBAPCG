@@ -1,12 +1,6 @@
-import sys, pygame, math, numpy, random, time, copy
+import pygame, math, numpy, random, time, copy
 from pygame.locals import * 
-
-from constants import *
-from utils import *
-from core import *
-from agents import *
-from astarnavigator import *
-from clonenav import *
+from modules import *
 
 ### Modifications:
 ### - Hero can dodge
@@ -25,11 +19,9 @@ BIGBULLETRANGE = 250
 TOWERBULLETRANGE = 250
 TOWERBULLETDAMAGE = 10
 TOWERBULLETSPEED = (20, 20)
-TOWERBULLET = "sprites/bullet2.gif"
 BASEBULLETRANGE = 200
 BASEBULLETDAMAGE = 10
 BASEBULLETSPEED = (20, 20)
-BASEBULLET = "sprites/bullet2.gif"
 SPAWNNUM = 3
 MAXSPAWN = 4
 AREAEFFECTDAMAGE = 25

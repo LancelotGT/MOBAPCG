@@ -27,11 +27,11 @@ BIGBULLETRANGE = 250
 TOWERBULLETRANGE = 250
 TOWERBULLETDAMAGE = 10
 TOWERBULLETSPEED = (20, 20)
-TOWERBULLET = "sprites/bullet2.gif"
+TOWERBULLET = "sharedcontents/sprites/bullet2.gif"
 BASEBULLETRANGE = 200
 BASEBULLETDAMAGE = 10
 BASEBULLETSPEED = (20, 20)
-BASEBULLET = "sprites/bullet2.gif"
+BASEBULLET = "sharedcontents/sprites/bullet2.gif"
 SPAWNNUM = 3
 MAXSPAWN = 4
 AREAEFFECTDAMAGE = 25
@@ -50,20 +50,20 @@ DODGERATE = 10
 
 
 
-AGENT = "sprites/spartan2.gif"
-SMALLBULLET = "sprites/bullet.gif"
-BIGBULLET = "sprites/bullet2.gif"
-RESOURCE = "sprites/crystal.gif"
-GATE = "sprites/mine.gif"
-NPC = "sprites/spartan.gif"
-JACKAL = "sprites/jackal.gif"
-ELITE = "sprites/elite.gif"
-CRATE = "sprites/crate.gif"
-BASE = "sprites/base.gif"
-CRYSTAL = "sprites/crystal.gif"
-TREE = "sprites/tree.gif"
-MINE = "sprites/mine.gif"
-TOWER = "sprites/tower.gif"
+AGENT = "sharedcontents/sprites/spartan2.gif"
+SMALLBULLET = "sharedcontents/sprites/bullet.gif"
+BIGBULLET = "sharedcontents/sprites/bullet2.gif"
+RESOURCE = "sharedcontents/sprites/crystal.gif"
+GATE = "sharedcontents/sprites/mine.gif"
+NPC = "sharedcontents/sprites/spartan.gif"
+JACKAL = "sharedcontents/sprites/jackal.gif"
+ELITE = "sharedcontents/sprites/elite.gif"
+CRATE = "sharedcontents/sprites/crate.gif"
+BASE = "sharedcontents/sprites/base.gif"
+CRYSTAL = "sharedcontents/sprites/crystal.gif"
+TREE = "sharedcontents/sprites/tree.gif"
+MINE = "sharedcontents/sprites/mine.gif"
+TOWER = "sharedcontents/sprites/tower.gif"
 
 INFINITY = float("inf")
 

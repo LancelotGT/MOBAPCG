@@ -1,15 +1,9 @@
 import os, sys, pygame, math, numpy, random, time, copy, compileall
 from pygame.locals import *
 
-sys.path.append("/home/ubuntu/Desktop/MOBAPCG")
-
-from constants import *
-from utils import *
-from core import *
-from agents import *
+# sys.path.append("/home/ubuntu/Desktop/MOBAPCG")
 from mobaCustom import *
-from astarnavigator import *
-from ml import *
+
 
 import imp
 
@@ -168,7 +162,9 @@ b1 = TDBase(BASE, (25, 25), world, enemyMinion1, enemyMinion2, enemyMinion3, 1)
 b1.setNavigator(nav1)
 world.addBase(b1)
 
-thePlayer = playerModel()
+### use one of the two models
+# thePlayer = LR()
+thePlayer = SVR()
 
 PCG(world, 0.5, thePlayer)
 

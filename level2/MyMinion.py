@@ -1,10 +1,7 @@
 import sys, pygame, math, numpy, random, time, copy
 from pygame.locals import * 
-
-from constants import *
-from utils import *
-from core import *
 from mobaLevel2 import *
+
 
 class MyMinion(Minion):
 	
@@ -19,8 +16,6 @@ class MyMinion(Minion):
 	def start(self):
 		Minion.start(self)
 		self.changeState(Idle)
-
-
 
 
 

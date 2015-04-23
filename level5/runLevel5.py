@@ -1,14 +1,9 @@
 import os, sys, pygame, math, numpy, random, time, copy, compileall
 from pygame.locals import *
 
-sys.path.append("/home/ubuntu/Desktop/MOBAPCG")
+# sys.path.append("/home/ubuntu/Desktop/MOBAPCG")
 
-from constants import *
-from utils import *
-from core import *
-from agents import *
 from mobaLevel5 import *
-from astarnavigator import *
 
 import imp
 
