@@ -11,7 +11,7 @@ class SimulatedAnnealing():
         minmaxList = model.getMinMaxList()
         self.minmaxList = minmaxList
         self.dim = model.getColumns()
-        self.alpha = startTemperature
+        self.alpha = 1.0 * startTemperature
         s0 = np.zeros(self.dim)
         for i in range(self.dim):
             s0[i] = minmaxList[i][1] + random.random() * (minmaxList[i][0] - minmaxList[i][1])
