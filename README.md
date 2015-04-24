@@ -4,11 +4,22 @@ CS 7632 Game AI final project
 Procedural Content Generation for MOBA (DOTA-like) Game
 -----------------------------------------------------------
 
-### Install packages and configuration files
-
+### Install package dependencies and configuration files (MacOS)
 ```
-% To run the game, install pygame and numpy (http://pygame.org/download.shtml, http://www.scipy.org/scipylib/download.html)
-% sudo apt-get update && sudo apt-get install git
+% To run the game, manually install OSX pygame distribution
+% sudo pip install -U numpy scipy scikit-learn
+% sudo apt-get install git
+% git clone https://github.com/LancelotGT/MOBAPCG.git
+```
+
+### Install package dependencies and configuration files (Linux)
+```
+% To run the game, manually install Linux pygame distribution
+% sudo apt-get update
+% sudo apt-get install build-essential python-dev python-setuptools \
+                      python-numpy python-scipy \
+                      libatlas-dev libatlas3gf-base
+% sudo apt-get install git
 % git clone https://github.com/LancelotGT/MOBAPCG.git
 ```
 
