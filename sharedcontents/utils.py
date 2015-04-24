@@ -2,6 +2,7 @@ import sys, pygame, math, numpy, random, time, copy
 
 from pygame.locals import * 
 from constants import *
+from customLevel.optimization import SimulatedAnnealing
 
 
 ########################
@@ -356,10 +357,13 @@ def drawCross(surface, point, color = (0, 0, 0), size = 2, width = 1):
 def writeGameStatistics(world):
     timeElapse = time.clock() - world.getStartTime()
     print "Time Elapse: ", timeElapse
-    score = float(world.damageDealt) / (1 + world.damageTaken) # need to be more sophisticated
+
+    # calculate score for the game
+    score = float(world.damageDealt) / ((1 + world.damageTaken) * world.levelDifficulty["numOfTower"])
+
     currentTime = time.strftime("%b-%d-%Y %H:%M:%S", time.gmtime())
     file = open("player.txt", "a")
-    file.write(currentTime + "\t" + timeElapse + "\t" + str(world.playerDeaths) + "\t" + str(world.damageTaken) + "\t" + str(world.damageDealt) \
+    file.write(currentTime + "\t" + str(timeElapse) + "\t" + str(world.playerDeaths) + "\t" + str(world.damageTaken) + "\t" + str(world.damageDealt) \
         + "\t" + str(world.deathsByCollision) + "\t" + str(world.damageToTower) + "\t" + str(world.damageToBase) \
         + "\t" + str(world.numOfDodges) + "\t" + str(world.numOfBullets) + "\n")
 
@@ -417,33 +421,41 @@ def isFar(towers, towerLoc, coeff) :
   return thebool
 
 
-def PCG(world, score, regr):
+def PCG(world, score, model):
 
-  features = [random.randint(4, 12), 30, 5]
-  coeff = random.uniform(0.6, 1)
-  features.append(features[0]*coeff)
+  # features = [random.randint(4, 12), 30, 5]
+  # coeff = random.uniform(0.6, 1)
+  # features.append(features[0]*coeff)
 
-  coeffs = regr.getParams()
-  print coeffs
+  # coeffs = model.getParams()
+  # print coeffs
 
-  while (regr.testScore(features) > score) :
-    print "features", regr.testScore(features)
-    print "score: ", score
-    features[0] += 1
-    features[3] += coeff
-  while (regr.testScore(features) < score) :
-    print "features", regr.testScore(features)
-    print "score: ", score
-    features[0] -= 1 
-    features[3] -= coeff
+  # while (model.testScore(features) > score) :
+  #   print "features", model.testScore(features)
+  #   print "score: ", score
+  #   features[0] += 1
+  #   features[3] += coeff
+  # while (model.testScore(features) < score) :
+  #   print "features", model.testScore(features)
+  #   print "score: ", score
+  #   features[0] -= 1 
+  #   features[3] -= coeff
 
-    print "features", regr.testScore(features)
-    print "score: ", score
+  #   print "features", model.testScore(features)
+  #   print "score: ", score
   
-  while (regr.testScore(features) < score) and (coeff > 0.6) :
-    coeff -= 0.05
-    features[3] = features[0]*coeff
+  # while (model.testScore(features) < score) and (coeff > 0.6) :
+  #   coeff -= 0.05
+  #   features[3] = features[0]*coeff
+  
+  ### optimzation part
+  target = score
+  SA = SimulatedAnnealing(model, target)
+  features = SA.finalState()
+  features = (int(round(features[0])), features[2], features[3]) # take three feature from level.txt
+  print "Optimized features: ", features
 
+  ### PCG part
   towers = []
   
   # randomly place features[0] towers on the field, multiple conditions : not in obstacle, not too close from the other towers, not too close from the hero base

@@ -65,7 +65,7 @@ class SimulatedAnnealing():
         return s_next
 
     def __E(self, s):
-        return model.testScore(s)
+        return self.model.testScore(s)
 
     # def __P(self, e_s, e_new):
     #     print "probability: ", math.exp(self.alpha * (e_new - e_s) / self.T)

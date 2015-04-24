@@ -935,11 +935,26 @@ class GameWorld():
 		if self.debugging:
 			self.background.blit(self.debug, (0, 0))
 		self.sprites.draw(self.background)
+		self.drawTimer()
 		for o in self.obstacles:
 			o.draw(self.background)
 		#pygame.display.flip()
 		edgePoints = ((0, 0), (self.dimensions[0] - 0, 0), (self.dimensions[0] - 0, self.dimensions[1]), (0, self.dimensions[1]))
 		pygame.draw.polygon(self.debug, (255, 255, 0), edgePoints, 10)
+
+	def drawTimer(self):
+		offsetX = self.agent.rect.center[0] - 550
+		offsetY = self.agent.rect.center[1] - 550
+		leftTime = round(200 - (time.clock() - self.getStartTime()), 1)
+		if leftTime <= 0:
+			print "Time's up! You lose."
+			writeGameStatistics(self)
+			sys.exit(0)
+		myfont = pygame.font.SysFont("monospace", 24)
+		myfont.set_bold(True)
+		# render text
+		label = myfont.render(str(leftTime), True, (255, 0, 0))
+		self.background.blit(label, (offsetX, offsetY))
 		
 	def handleEvents(self): 
 		events = pygame.event.get()

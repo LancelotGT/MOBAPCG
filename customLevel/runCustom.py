@@ -3,8 +3,6 @@ from pygame.locals import *
 
 # sys.path.append("/home/ubuntu/Desktop/MOBAPCG")
 from mobaCustom import *
-
-
 import imp
 
 def importHero2(classFile):
