@@ -165,13 +165,21 @@ t11 = Tower(TOWER, (500, 400), world, 1)
 world.addTower(t11)
 t12 = Tower(TOWER, (400, 500), world, 1)
 world.addTower(t12)
-t13 = Tower(TOWER, (700, 400), world, 1)
+# t13 = Tower(TOWER, (700, 400), world, 1)
+# world.addTower(t13)
+# t14 = Tower(TOWER, (400, 700), world, 1)
+# world.addTower(t14)
+t13 = Tower(TOWER, (1100, 600), world, 1)
 world.addTower(t13)
-t14 = Tower(TOWER, (400, 700), world, 1)
+t14 = Tower(TOWER, (600, 1100), world, 1)
 world.addTower(t14)
-t15 = Tower(TOWER, (300, 400), world, 1)
+# t15 = Tower(TOWER, (300, 400), world, 1)
+# world.addTower(t15)
+# t16 = Tower(TOWER, (400, 300), world, 1)
+# world.addTower(t16)
+t15 = Tower(TOWER, (900, 150), world, 1)
 world.addTower(t15)
-t16 = Tower(TOWER, (400, 300), world, 1)
+t16 = Tower(TOWER, (150, 900), world, 1)
 world.addTower(t16)
 
 
@@ -185,7 +193,7 @@ b2 = Base(BASE, (1075, 1075), world, 2, MyAlienMinion, MyAlienHero, BUILDRATE)
 b2.setNavigator(nav2)
 world.addBase(b2)
 
-world.levelDifficulty["numOfTower"] = 4
+world.levelDifficulty["numOfTower"] = 6
 world.levelDifficulty["powerOfTower"] = TOWERBULLETDAMAGE
 world.levelDifficulty["powerOfBase"] = BASEBULLETDAMAGE
 world.levelDifficulty["powerOfHero"] = BIGBULLETDAMAGE

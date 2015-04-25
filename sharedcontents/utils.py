@@ -359,7 +359,9 @@ def writeGameStatistics(world):
     print "Time Elapse: ", timeElapse
 
     # calculate score for the game
-    score = float(world.damageDealt) / ((1 + world.damageTaken) * world.levelDifficulty["numOfTower"])
+    score = float(dealt) / (1 + 0.5 * math.sqrt(taken))
+    score = score / (1 + elapse / (total))
+    print "Score: ", score
 
     currentTime = time.strftime("%b-%d-%Y %H:%M:%S", time.gmtime())
     file = open("player.txt", "a")

@@ -299,6 +299,7 @@ class Base(Mover):
         self.canfire = True
         self.bulletclass = bulletclass
         self.heroType = heroType
+        self.maxHitPoints = hitpoints
 
     def setNavigator(self, nav):
         self.nav = nav
@@ -530,7 +531,7 @@ class TDBase(Base):
         print "base dies", self
         self.world.deleteBase(self)
         print "Congratulations, you win!"
-        writeGameStatistics(self.world)
+        writeGameStatistics(self.world) 
         sys.exit(0)
 
 
@@ -554,6 +555,7 @@ class Tower(Mover):
         self.firetimer = 0
         self.canfire = True
         self.bulletclass = bulletclass
+        self.maxHitPoints = hitpoints
 
     def getTeam(self):
         return self.team
@@ -704,7 +706,7 @@ class MOBAWorld(GatedWorld):
 
     def doKeyDown(self, key):
         GatedWorld.doKeyDown(self, key)
-        if key == 106: #'j'
+        if key == 100: #'d'
             if isinstance(self.agent, Hero):
                 self.agent.dodge()
         elif key == 97: #'a'

@@ -9,6 +9,9 @@ from modules import *
 ### - MOBABulletse tell MOBAAgents who did the damage
 ### - MOBAAgent.creditKill, Hero.creditKill
 
+HITPOINTS = 25
+BASEHITPOINTS = 75
+TOWERHITPOINTS = 50
 HEROHITPOINTS = 50
 BUILDRATE = 180
 TOWERFIRERATE = 15
@@ -17,17 +20,26 @@ BULLETRANGE = 150
 SMALLBULLETRANGE = 150
 BIGBULLETRANGE = 250
 TOWERBULLETRANGE = 250
-TOWERBULLETDAMAGE = 10
 TOWERBULLETSPEED = (20, 20)
-BASEBULLETRANGE = 200
-BASEBULLETDAMAGE = 10
+BASEBULLETRANGE = 300
 BASEBULLETSPEED = (20, 20)
-SPAWNNUM = 3
-MAXSPAWN = 4
+SPAWNNUM = 5
+MAXSPAWN = 10
 AREAEFFECTDAMAGE = 25
 AREAEFFECTRATE = 60
 AREAEFFECTRANGE = 2
 MAXLIVES = 3
+SMALLBULLETSPEED = (20, 20)
+BIGBULLETSPEED = (20, 20)
+FIRERATE = 10
+DODGERATE = 10
+BASEBULLETDAMAGE = 10
+SMALLBULLETDAMAGE = 1
+
+
+TOWERBULLETDAMAGE = 10
+BIGBULLETDAMAGE = 5
+
 
 ######################
 ### MOBABullet
@@ -297,6 +309,7 @@ class Base(Mover):
 		self.canfire = True
 		self.bulletclass = bulletclass
 		self.heroType = heroType
+		self.maxHitPoints = hitpoints
 
 	def setNavigator(self, nav):
 		self.nav = nav
@@ -528,7 +541,7 @@ class TDBase(Base):
 		print "base dies", self
 		self.world.deleteBase(self)
 		print "Congratulations, you win!"
-		writeGameStatistics(self)
+		writeGameStatistics(self.world)
 		sys.exit(0)
 
 
@@ -552,6 +565,7 @@ class Tower(Mover):
 		self.firetimer = 0
 		self.canfire = True
 		self.bulletclass = bulletclass
+		self.maxHitPoints = hitpoints
 
 	def getTeam(self):
 		return self.team
@@ -701,7 +715,7 @@ class MOBAWorld(GatedWorld):
 
 	def doKeyDown(self, key):
 		GatedWorld.doKeyDown(self, key)
-		if key == 106: #'j'
+		if key == 100: #'d'
 			if isinstance(self.agent, Hero):
 				self.agent.dodge()
 		elif key == 97: #'a'

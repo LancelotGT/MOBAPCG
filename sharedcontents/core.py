@@ -802,6 +802,7 @@ class GameWorld():
 		self.levelDifficulty = {}
 	
 		self.areaFeature = None
+		self.totalTime = 200.0
 
 	def getPoints(self):
 		return self.points
@@ -936,6 +937,8 @@ class GameWorld():
 			self.background.blit(self.debug, (0, 0))
 		self.sprites.draw(self.background)
 		self.drawTimer()
+		for sprite in self.movers:
+			self.drawHealth(sprite)
 		for o in self.obstacles:
 			o.draw(self.background)
 		#pygame.display.flip()
@@ -945,7 +948,7 @@ class GameWorld():
 	def drawTimer(self):
 		offsetX = self.agent.rect.center[0] - 550
 		offsetY = self.agent.rect.center[1] - 550
-		leftTime = round(200 - (time.clock() - self.getStartTime()), 1)
+		leftTime = round(self.totalTime - (time.clock() - self.getStartTime()), 1)
 		if leftTime <= 0:
 			print "Time's up! You lose."
 			writeGameStatistics(self)
@@ -955,7 +958,28 @@ class GameWorld():
 		# render text
 		label = myfont.render(str(leftTime), True, (255, 0, 0))
 		self.background.blit(label, (offsetX, offsetY))
-		
+	
+	def drawHealth(self, sprite):
+		if isinstance(sprite, Bullet):
+			return
+
+		posX = sprite.rect.center[0] - 10
+		posY = sprite.rect.center[1] - 30
+
+		if not isinstance(sprite, Agent):
+			if sprite.maxHitPoints == TOWERHITPOINTS:
+				posX = sprite.rect.center[0] - 10
+				posY = sprite.rect.center[1] - 50
+			else:
+				posX = sprite.rect.center[0] - 10
+				posY = sprite.rect.center[1] - 75
+
+		myfont = pygame.font.SysFont("monospace", 12)
+		myfont.set_bold(False)
+		# render text
+		label = myfont.render(str(sprite.hitpoints), True, (255, 0, 0))
+		self.background.blit(label, (posX, posY))
+
 	def handleEvents(self): 
 		events = pygame.event.get()
 		for event in events:
@@ -973,9 +997,9 @@ class GameWorld():
 		self.agent.navigateTo([offsetX, offsetY])
 		
 	def doKeyDown(self, key):
-		if key == 32: #space
+		if key == 115: #s
 			self.agent.shoot()
-		elif key == 100: #d
+		elif key == 84: #T
 			print "distance traveled", self.agent.distanceTraveled
 
 	def worldCollisionTest(self):
