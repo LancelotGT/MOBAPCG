@@ -354,13 +354,16 @@ def drawCross(surface, point, color = (0, 0, 0), size = 2, width = 1):
 
 
 ### function that will write the game statistics and configuration of level (including the score)
-def writeGameStatistics(world):
+def writeGameStatistics(world, winning):
     timeElapse = time.clock() - world.getStartTime()
     print "Time Elapse: ", timeElapse
 
     # calculate score for the game
-    score = float(dealt) / (1 + 0.5 * math.sqrt(taken))
-    score = score / (1 + elapse / (total))
+    score = float(world.damageDealt) / (1 + math.sqrt(world.damageTaken))
+    if winning == True:
+        score = score / (1 + timeElapse / world.totalTime)
+    else:
+        score = score / 2
     print "Score: ", score
 
     currentTime = time.strftime("%b-%d-%Y %H:%M:%S", time.gmtime())
@@ -370,7 +373,7 @@ def writeGameStatistics(world):
         + "\t" + str(world.numOfDodges) + "\t" + str(world.numOfBullets) + "\n")
 
     file = open("level.txt", "a")
-    file.write(str(world.levelDifficulty["numOfTower"]) + "\t" + str(world.levelDifficulty["powerOfTower"]) + "\t" + str(world.levelDifficulty["powerOfHero"]) \
+    file.write(str(world.levelDifficulty["numOfTower"]) + "\t" + str(world.levelDifficulty["powerOfTower"]) + "\t" + str(float(world.levelDifficulty["powerOfHero"]) / float(world.levelDifficulty["powerOfTower"])) \
         + "\t" + str(world.areaFeature) + "\t" + str(score) + "\n")
 
 

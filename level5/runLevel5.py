@@ -161,8 +161,8 @@ b1 = TDBase(BASE, (25, 25), world, enemyMinion1, enemyMinion2, enemyMinion3, 1)
 b1.setNavigator(nav1)
 world.addBase(b1)
 
-# t11 = Tower(TOWER, (500, 400), world, 1)
-# world.addTower(t11)
+t11 = Tower(TOWER, (500, 500), world, 1)
+world.addTower(t11)
 # t12 = Tower(TOWER, (400, 500), world, 1)
 # world.addTower(t12)
 # t13 = Tower(TOWER, (700, 400), world, 1)
@@ -194,7 +194,7 @@ b2.setNavigator(nav2)
 world.addBase(b2)
 
 
-world.levelDifficulty["numOfTower"] = 4
+world.levelDifficulty["numOfTower"] = 5
 world.levelDifficulty["powerOfTower"] = TOWERBULLETDAMAGE
 world.levelDifficulty["powerOfBase"] = BASEBULLETDAMAGE
 world.levelDifficulty["powerOfHero"] = BIGBULLETDAMAGE

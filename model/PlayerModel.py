@@ -12,6 +12,7 @@ class PlayerModel():
         # get and parse the data
         levelData = open(LEVELPATH)
         dataset = np.loadtxt(levelData, delimiter = "\t")
+        dataset = np.delete(dataset, 1, 1)
         self.dataset = dataset
         print "raw data: "
         print dataset
@@ -21,6 +22,9 @@ class PlayerModel():
         new_data = self.normalize()
         self.dataset_X_train = new_data[:, 0:self.col - 1]
         self.dataset_Y_train = new_data[:, self.col - 1]
+
+    def getDataset(self):
+        return self.dataset
 
     def getTrainingX(self):
         return self.dataset_X_train
@@ -57,7 +61,7 @@ class PlayerModel():
                 new_data[i, j] = (raw_data[i, j] - tmp_list[j][1]) / (tmp_list[j][0] - tmp_list[j][1])
 
         # print "normalize: "
-        # print new_data
+        print new_data
         return new_data
 
     def normalizeTest(self, data):
@@ -102,14 +106,17 @@ class LR(PlayerModel):
 
     def visualize(self):
         x = np.zeros((10, self.col - 1))
+        mean = self.dataset_X_train.mean(0)
         for i in range(10):
-            x[i, :] = self.dataset_X_train[0, :]
-        x[:, 3:4] = np.array([np.arange(0., 1.2, 0.12)]).T
+            x[i, :] = mean
+        x[:, 0:1] = np.array([np.arange(0.0, 1.1, 0.11)]).T
+        # print "mean: ", self.dataset_X_train.mean(0)
+
         y = self.regr.predict(x)
-        pyplot.scatter(self.dataset_X_train[:, 3:4], self.dataset_Y_train, c='k', label='data')
+        pyplot.scatter(self.dataset_X_train[:, 0:1], self.dataset_Y_train, c='k', label='data')
         pyplot.hold('on')
-        pyplot.plot(x[:, 3:4], y, c = "r", label='Linear Regression')
-        pyplot.xlabel('data collect from player')
+        pyplot.plot(x[:, 0:1], y, c = "r", label='Linear Regression')
+        pyplot.xlabel('number of towers')
         pyplot.ylabel('score')
         pyplot.title('Linear Regression')
         pyplot.legend()
@@ -122,7 +129,7 @@ class SVR(PlayerModel):
     def __init__(self):
         PlayerModel.__init__(self)
         # configure support vector regression and start training
-        self.regr = SupportVectorRegression(kernel = 'rbf', C = 1e3)
+        self.regr = SupportVectorRegression(kernel = 'rbf', C = 1)
         self.regr.fit(self.dataset_X_train, self.dataset_Y_train)
         print "Finish building player model."
         print self.regr.get_params()
@@ -142,15 +149,16 @@ class SVR(PlayerModel):
         # print self.dataset_Y_train
         # x = np.arange(0., 1., 0.05)
         x = np.zeros((10, self.col - 1))
+        mean = self.dataset_X_train.mean(0)
         for i in range(10):
-            x[i, :] = self.dataset_X_train[0, :]
-        x[:, 3:4] = np.array([np.arange(0., 1.2, 0.12)]).T
+            x[i, :] = mean
+        x[:, 0:1] = np.array([np.arange(0.0, 1.1, 0.11)]).T
         # print x
         y = self.regr.predict(x)
         # print y
-        pyplot.scatter(self.dataset_X_train[:, 3:4], self.dataset_Y_train, c='k', label='data')
+        pyplot.scatter(self.dataset_X_train[:, 0:1], self.dataset_Y_train, c='k', label='data')
         pyplot.hold('on')
-        pyplot.plot(x[:, 3:4], y, c = "r", label='Support Vector Regression')
+        pyplot.plot(x[:, 0:1], y, c = "r", label='Support Vector Regression')
         pyplot.xlabel('data collect from player')
         pyplot.ylabel('score')
         pyplot.title('Support Vector Regression')
@@ -164,6 +172,9 @@ if __name__ == "__main__":
     test_X = np.array([  3.,          10.,           5.,           1.22868792])
     # test for linear regression
     linearModel = LR()
+    # print "test:", linearModel.getDataset().mean(0)
+    # test_X = np.delete(LR().getDataset().mean(0), 1, 1)
+    # print "test data: ", test_X
     score1 = linearModel.testScore(test_X)
     print "Score by linear model: ", score1
     linearModel.visualize()

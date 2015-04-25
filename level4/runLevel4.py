@@ -173,8 +173,8 @@ t13 = Tower(TOWER, (1100, 600), world, 1)
 world.addTower(t13)
 t14 = Tower(TOWER, (600, 1100), world, 1)
 world.addTower(t14)
-# t15 = Tower(TOWER, (300, 400), world, 1)
-# world.addTower(t15)
+t15 = Tower(TOWER, (500, 500), world, 1)
+world.addTower(t15)
 # t16 = Tower(TOWER, (400, 300), world, 1)
 # world.addTower(t16)
 t15 = Tower(TOWER, (900, 150), world, 1)
@@ -193,7 +193,7 @@ b2 = Base(BASE, (1075, 1075), world, 2, MyAlienMinion, MyAlienHero, BUILDRATE)
 b2.setNavigator(nav2)
 world.addBase(b2)
 
-world.levelDifficulty["numOfTower"] = 6
+world.levelDifficulty["numOfTower"] = 7
 world.levelDifficulty["powerOfTower"] = TOWERBULLETDAMAGE
 world.levelDifficulty["powerOfBase"] = BASEBULLETDAMAGE
 world.levelDifficulty["powerOfHero"] = BIGBULLETDAMAGE

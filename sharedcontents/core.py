@@ -951,9 +951,9 @@ class GameWorld():
 		leftTime = round(self.totalTime - (time.clock() - self.getStartTime()), 1)
 		if leftTime <= 0:
 			print "Time's up! You lose."
-			writeGameStatistics(self)
+			writeGameStatistics(self, False)
 			sys.exit(0)
-		myfont = pygame.font.SysFont("monospace", 24)
+		myfont = pygame.font.SysFont("helvetica", 24)
 		myfont.set_bold(True)
 		# render text
 		label = myfont.render(str(leftTime), True, (255, 0, 0))
@@ -974,7 +974,7 @@ class GameWorld():
 				posX = sprite.rect.center[0] - 10
 				posY = sprite.rect.center[1] - 75
 
-		myfont = pygame.font.SysFont("monospace", 12)
+		myfont = pygame.font.SysFont("helvetica", 12)
 		myfont.set_bold(False)
 		# render text
 		label = myfont.render(str(sprite.hitpoints), True, (255, 0, 0))
