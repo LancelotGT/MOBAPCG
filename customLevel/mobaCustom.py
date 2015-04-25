@@ -9,27 +9,6 @@ from modules import *
 ### - MOBABulletse tell MOBAAgents who did the damage
 ### - MOBAAgent.creditKill, Hero.creditKill
 
-HEROHITPOINTS = 50
-BUILDRATE = 180
-TOWERFIRERATE = 15
-BASEFIRERATE = 20
-BULLETRANGE = 150
-SMALLBULLETRANGE = 150
-BIGBULLETRANGE = 250
-TOWERBULLETRANGE = 250
-TOWERBULLETDAMAGE = 10
-TOWERBULLETSPEED = (20, 20)
-TOWERBULLET = "sprites/bullet2.gif"
-BASEBULLETRANGE = 200
-BASEBULLETDAMAGE = 10
-BASEBULLETSPEED = (20, 20)
-BASEBULLET = "sprites/bullet2.gif"
-SPAWNNUM = 3
-MAXSPAWN = 4
-AREAEFFECTDAMAGE = 25
-AREAEFFECTRATE = 60
-AREAEFFECTRANGE = 2
-MAXLIVES = 3
 
 ######################
 ### MOBABullet
@@ -105,6 +84,10 @@ class TowerBullet(MOBABullet):
     
     def __init__(self, position, orientation, world):
         MOBABullet.__init__(self, position, orientation, world, TOWERBULLET, TOWERBULLETSPEED, TOWERBULLETDAMAGE, TOWERBULLETRANGE)
+
+    def setDamage(self, damage):
+        self.damage = damage
+
 
 ###########################
 ### BaseBullet
@@ -205,8 +188,8 @@ class Hero(MOBAAgent):
             if self.areaEffectTimer >= self.areaEffectRate:
                 self.canAreaEffect = True
                 self.areaEffectTimer = 0
-        if (self.world.ticks % 20) == 0:
-            print "Hitpoints: ", self.hitpoints
+        #if (self.world.ticks % 20) == 0:
+        #    print "Hitpoints: ", self.hitpoints
 
     def dodge(self, angle = None):
         if self.canDodge:
@@ -230,9 +213,12 @@ class Hero(MOBAAgent):
 
     def creditKill(self, killed):
         MOBAAgent.creditKill(self, killed)
-        self.level = self.level + 1
-        self.maxHitpoints = self.maxHitpoints + 1
+        #self.level = self.level + 1
+        #self.maxHitpoints = self.maxHitpoints + 1
         return None
+
+    def upgrade(self):
+        self.level += 10
 
     def reinit(self):
         self.level = 0
@@ -430,6 +416,7 @@ class TDBase(Base):
         self.minionType2 = minionType2
         self.minionType3 = minionType3
 
+        self.First = True
 
     # Override
     def update(self, delta):
@@ -439,6 +426,12 @@ class TDBase(Base):
             self.spawnNPC1()
             self.spawnNPC2()
             self.spawnNPC3()
+            if self.First:
+                self.First = False
+            else :
+                for npc in self.world.npcs + [self.world.agent]:
+                    if isinstance(npc, Hero):
+                        npc.upgrade()
 
         if self.canfire == False:
             self.firetimer = self.firetimer + 1
@@ -562,7 +555,6 @@ class Tower(Mover):
     
     def setTeam(self, team):
         self.team = team
-
 
     def damage(self, amount):
         self.hitpoints = self.hitpoints - amount

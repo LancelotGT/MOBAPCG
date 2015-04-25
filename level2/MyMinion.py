@@ -2,7 +2,6 @@ import sys, pygame, math, numpy, random, time, copy
 from pygame.locals import * 
 from mobaLevel2 import *
 
-
 class MyMinion(Minion):
 	
 	def __init__(self, position, orientation, world, image = NPC, speed = SPEED, viewangle = 360, hitpoints = HITPOINTS, firerate = FIRERATE, bulletclass = SmallBullet):
@@ -10,12 +9,14 @@ class MyMinion(Minion):
 		self.states = [Idle]
 		### Add your states to self.states (but don't remove Idle)
 		### YOUR CODE GOES BELOW HERE ###
-		self.states += [Move, AttackNPC, AttackBase, AttackTower]
+		self.states += [Move, AttackBase, AttackTower]
 		### YOUR CODE GOES ABOVE HERE ###
 
 	def start(self):
 		Minion.start(self)
 		self.changeState(Idle)
+
+
 
 
 
@@ -84,7 +85,6 @@ class Move(State):
 		myPos = self.agent.getLocation()
 		enemyTowers = self.agent.world.getEnemyTowers(myTeam)
 		enemyBase = self.agent.world.getEnemyBases(myTeam)
-		visibleEnemyNPCs = filter(lambda x: x.getTeam() != myTeam, self.agent.getVisibleType(MOBAAgent))
 
 		# make the agent move again if it returns from other state
 		if (not self.agent.isMoving()):
@@ -101,15 +101,6 @@ class Move(State):
 		if len(enemyTowers) > 0:
 			if nearestDest(self.agent, enemyTowers)[1] < 150:
 					self.agent.changeState(AttackTower)
-
-		# if an enemy minion nearby, attack it by the way.
-		if len(visibleEnemyNPCs) > 0:
-			target, dist = nearestDest(self.agent, visibleEnemyNPCs)
-			# targetDistToEnemyBase = 10000
-			# if len(self.agent.world.getEnemyBases(myTeam)) > 0:
-				# targetDistToEnemyBase = distance(target.getLocation(), self.agent.world.getEnemyBases(myTeam)[0].getLocation())
-			if target.isAlive() and dist < 150:
-				self.agent.changeState(AttackNPC, target)
 
 ##############################
 ### AttackBase
@@ -151,30 +142,6 @@ class AttackTower(State):
 				self.agent.changeState(Move)
 		else:
 			self.agent.changeState(Move)
-
-##############################
-### AttackNPC
-###
-### This is a state where the agent attack one opponent minion
-### Agent.changeState(AttackNPC)
-class AttackNPC(State):
-
-	def enter(self, oldstate):
-		self.agent.stop()
-
-	def execute(self, delta = 0):
-		if self.target != None:
-			distToTarget = distance(self.target.getLocation(), self.agent.getLocation())
-			if not self.target.isAlive() or distToTarget > 150:
-				self.agent.changeState(Move)
-			else:
-				shootTarget(self.agent, self.target)
-		else:
-			self.agent.changeState(Move)
-
-	def parseArgs(self, args):
-		self.target = args[0]
-
 
 
 

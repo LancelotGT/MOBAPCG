@@ -80,7 +80,6 @@ class LR(PlayerModel):
 
     def testScore(self, test_X):
         score = self.regr.predict(self.normalizeTest(test_X))
-        # print("Predicted Score: %.2f" % np.mean(score))
         return np.mean(score)
 
     def getParams(self):
@@ -144,8 +143,8 @@ class SVR(PlayerModel):
 
 if __name__ == "__main__":
     ### unit testing client
-    test_X = np.array([  5.,         30.,           4.5,           0.03089701])
-    test_X = np.array([  3.,          10.,           5.,           1.22868792])
+    test_X = np.array([  5.,         2.,           0.03089701])
+    test_X = np.array([  3.,         6.,           1.22868792])
     # test for linear regression
     linearModel = LR()
     score1 = linearModel.testScore(test_X)

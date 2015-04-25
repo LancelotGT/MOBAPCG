@@ -9,36 +9,9 @@ from modules import *
 ### - MOBABulletse tell MOBAAgents who did the damage
 ### - MOBAAgent.creditKill, Hero.creditKill
 
-HITPOINTS = 25
-BASEHITPOINTS = 75
+
 TOWERHITPOINTS = 50
-HEROHITPOINTS = 50
-BUILDRATE = 180
-TOWERFIRERATE = 15
-BASEFIRERATE = 20
-BULLETRANGE = 150
-SMALLBULLETRANGE = 150
-BIGBULLETRANGE = 250
-TOWERBULLETRANGE = 250
-TOWERBULLETSPEED = (20, 20)
-BASEBULLETRANGE = 300
-BASEBULLETSPEED = (20, 20)
-SPAWNNUM = 5
-MAXSPAWN = 10
-AREAEFFECTDAMAGE = 25
-AREAEFFECTRATE = 60
-AREAEFFECTRANGE = 2
-MAXLIVES = 3
-SMALLBULLETSPEED = (20, 20)
-BIGBULLETSPEED = (20, 20)
-FIRERATE = 10
-DODGERATE = 10
-BASEBULLETDAMAGE = 10
-SMALLBULLETDAMAGE = 1
-
-
 TOWERBULLETDAMAGE = 10
-BIGBULLETDAMAGE = 5
 
 
 ######################
@@ -215,8 +188,8 @@ class Hero(MOBAAgent):
 			if self.areaEffectTimer >= self.areaEffectRate:
 				self.canAreaEffect = True
 				self.areaEffectTimer = 0
-		if (self.world.ticks % 20) == 0:
-			print "Hitpoints: ", self.hitpoints
+		#if (self.world.ticks % 20) == 0:
+		#	print "Hitpoints: ", self.hitpoints
 
 	def dodge(self, angle = None):
 		if self.canDodge:
@@ -240,9 +213,12 @@ class Hero(MOBAAgent):
 
 	def creditKill(self, killed):
 		MOBAAgent.creditKill(self, killed)
-		self.level = self.level + 1
-		self.maxHitpoints = self.maxHitpoints + 1
+		#self.level = self.level + 1
+		#self.maxHitpoints = self.maxHitpoints + 1
 		return None
+
+        def upgrade(self):
+                self.level += 5
 
 	def reinit(self):
 		self.level = 0
@@ -440,6 +416,7 @@ class TDBase(Base):
 		self.minionType2 = minionType2
 		self.minionType3 = minionType3
 
+                self.First = True
 
 	# Override
 	def update(self, delta):
@@ -449,6 +426,12 @@ class TDBase(Base):
 			self.spawnNPC1()
 			self.spawnNPC2()
 			self.spawnNPC3()
+                        if self.First:
+                                self.First = False
+                        else :
+                                for npc in self.world.npcs + [self.world.agent]:
+                                        if isinstance(npc, Hero):
+                                                npc.upgrade()
 
 		if self.canfire == False:
 			self.firetimer = self.firetimer + 1

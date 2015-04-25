@@ -98,7 +98,6 @@ class LR(PlayerModel):
 
     def testScore(self, test_X):
         score = self.regr.predict(self.normalizeTest(test_X))
-        print("Predicted Score: %.2f" % np.mean(score))
         return np.mean(score)
 
     def getParams(self):
