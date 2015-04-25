@@ -1,6 +1,6 @@
 import os, sys
 cwd = os.getcwd()
-sys.path.append(os.path.relpath('../', cwd))
+sys.path.append(os.path.relpath('./', cwd))
 from model.PlayerModel import LR
 from model.PlayerModel import SVR
 from optimization import SimulatedAnnealing

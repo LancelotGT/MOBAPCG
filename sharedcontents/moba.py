@@ -210,8 +210,8 @@ class Hero(MOBAAgent):
 			if self.areaEffectTimer >= self.areaEffectRate:
 				self.canAreaEffect = True
 				self.areaEffectTimer = 0
-		if (self.world.ticks % 20) == 0:
-			print "Hitpoints: ", self.hitpoints
+		#if (self.world.ticks % 20) == 0:
+		#	print "Hitpoints: ", self.hitpoints
 
 	def dodge(self, angle = None):
 		if self.canDodge:

@@ -359,8 +359,8 @@ def writeGameStatistics(world):
     print "Time Elapse: ", timeElapse
 
     # calculate score for the game
-    score = float(dealt) / (1 + 0.5 * math.sqrt(taken))
-    score = score / (1 + elapse / (total))
+    score = float(world.damageDealt) / (1 + 0.5 * math.sqrt(world.damageTaken))
+    score = score / (1 + timeElapse / (world.totalTime))
     print "Score: ", score
 
     currentTime = time.strftime("%b-%d-%Y %H:%M:%S", time.gmtime())
@@ -370,8 +370,7 @@ def writeGameStatistics(world):
         + "\t" + str(world.numOfDodges) + "\t" + str(world.numOfBullets) + "\n")
 
     file = open("level.txt", "a")
-    file.write(str(world.levelDifficulty["numOfTower"]) + "\t" + str(world.levelDifficulty["powerOfTower"]) + "\t" + str(world.levelDifficulty["powerOfHero"]) \
-        + "\t" + str(world.areaFeature) + "\t" + str(score) + "\n")
+    file.write(str(world.levelDifficulty["numOfTower"]) + "\t" + str(world.levelDifficulty["powerOfTower"]) + "\t" + str(world.areaFeature) + "\t" + str(score) + "\n")
 
 
 # function that will determine the size of the area where our hero can be shot by a tower
@@ -382,6 +381,7 @@ def calculateTowerProximityFeature(world):
 
   mapApprox = numpy.zeros((world.dimensions[0]/10, world.dimensions[1]/10))
   first = True
+  theSingleArea = 0
   singleArea = 0
   totalArea = 0
 
@@ -398,150 +398,13 @@ def calculateTowerProximityFeature(world):
           if (mapApprox[x][y] == 0) :
             totalArea += 1
           mapApprox[x][y] = 1
-          if first :
-            singleArea += 1
+          singleArea += 1
 
-    first = False
+    if (singleArea > theSingleArea) :
+      theSingleArea = singleArea
+    singleArea = 0
 
-
-
-  floatTotalArea = (float)(totalArea)/(float)(singleArea)
+  floatTotalArea = (float)(totalArea)/(float)(theSingleArea)
 
   return floatTotalArea
 
-
-
-def isFar(towers, towerLoc, coeff) :
-
-  thebool = false
-  for tower in towers :
-    if (distance(tower, towerLoc) < 0.6*coeff*TOWERBULLETRANGE) :
-      return false
-    if (distance(tower, towerLoc) < 3*TOWERBULLETRANGE) :
-      thebool = true
-
-  return thebool
-
-
-def PCG(world, score, model):
-
-  # features = [random.randint(4, 12), 30, 5]
-  # coeff = random.uniform(0.6, 1)
-  # features.append(features[0]*coeff)
-
-  # coeffs = model.getParams()
-  # print coeffs
-
-  # while (model.testScore(features) > score) :
-  #   print "features", model.testScore(features)
-  #   print "score: ", score
-  #   features[0] += 1
-  #   features[3] += coeff
-  # while (model.testScore(features) < score) :
-  #   print "features", model.testScore(features)
-  #   print "score: ", score
-  #   features[0] -= 1 
-  #   features[3] -= coeff
-
-  #   print "features", model.testScore(features)
-  #   print "score: ", score
-  
-  # while (model.testScore(features) < score) and (coeff > 0.6) :
-  #   coeff -= 0.05
-  #   features[3] = features[0]*coeff
-  
-  ### optimzation part
-  target = score
-  SA = SimulatedAnnealing(model, target)
-  features = SA.finalState()
-  features = (int(round(features[0])), features[2], features[3]) # take three feature from level.txt
-  print "Optimized features: ", features
-
-  ### PCG part
-  towers = []
-  
-  # randomly place features[0] towers on the field, multiple conditions : not in obstacle, not too close from the other towers, not too close from the hero base
-  for i in range(0, features[0]) :
-    towerLoc = (random.randint(0, world.getDimensions()[0]), random.randint(0, world.getDimensions()[1]))
-
-    while ( (not isGood(towerLoc, world, 50))
-            or (distance(towerLoc, (25, 25)) > 2/3*distance((25, 25), (1075, 1075)))
-            or (not isFar(towers[0:i], towerLoc, coeff)) ) :
-      towerLoc = (random.randint(0, world.getDimensions()[0]), random.randint(0, world.getDimensions()[1]))
-
-    towers.append(towerLoc)
-
-  for tower in towers :
-    world.addTower(Tower(TOWER, tower, world, 1))
-
-  world.setAreaFeature()
-  
-
-
-  while (world.areaFeature > 1.05*features[3]) :
-
-    locs = []
-    dists = []
-
-    for tower in towers :
-      loc1 = (0,0)
-      loc2 = (0,0)
-      first = true
-      
-      for otherTower in towers :
-        if tower == otherTower :
-          continue
-        if first :
-          loc1 = otherTower
-          first = false
-
-        if (distance(tower, loc1) > distance(tower, otherTower)):
-          loc2 = loc1
-          loc1 = otherTower
-        elif (distance(tower, loc2) > distance(tower, otherTower)):
-          loc2 = otherTower
-          
-      if ( (not rayTraceWorld(tower, loc1, world.getLines()))
-           or (not rayTraceWorld(tower, loc2, world.getLines()))
-           or (not rayTraceWorld(loc1, loc2, world.getLines())) ) :
-        dists.append(0)
-      else :
-        dists.append(distance(tower, loc1) + distance(tower, loc2))
-      locs.append(loc1, loc2)
-    
-    index = dists.index(max(dists))
-    if (dists[index] == 0) :
-      break
-      
-    if (distance(locs[index][0], towers[index]) > 2*TOWERBULLETRANGE) :
-      thePosition = ((2*locs[index][0][0] + towers[index][0])/3, (2*locs[index][0][1] + towers[index][1])/3)
-      world.getTowers()[index].rect.move(thePosition)
-    else :
-      thePosition = ((locs[index][0][0] + locs[index][1][0])/2, (locs[index][0][1] + locs[index][1][1])/2)
-      world.getTowers()[index].rect.move(thePosition)
-
-    previousAreaFeature = world.areaFeature
-    world.setAreaFeature()
-    if (abs(world.areaFeature-previousAreaFeature) < 0.05) :
-      break
-
-  features[1] = score - coeffs[0]*features[0] - coeffs[2]*features[2] - coeffs[3]*world.areaFeature
-
-  print "la"
-  print features
-  return features
-
-
-
-
-
-def isGood(point, world, threshold):
-	if point[0] > 0 and point[0] < world.dimensions[0] and point[1] > 0 and point[1] < world.dimensions[1]:
-		for o in world.obstacles:
-			if pointInsidePolygonPoints(point, o.getPoints()):
-				return False
-		for l in world.getLines():
-			if minimumDistance(l, point) < threshold:
-				return False
-		return True
-	return False

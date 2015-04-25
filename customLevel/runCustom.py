@@ -3,6 +3,7 @@ from pygame.locals import *
 
 # sys.path.append("/home/ubuntu/Desktop/MOBAPCG")
 from mobaCustom import *
+from pcg import *
 import imp
 
 def importHero2(classFile):
@@ -146,7 +147,6 @@ obstacles = obstacles + mirror
 
 world = MOBAWorld(SEED, dims, dims, 1, 60)
 agent = Hero((1055, 1055), 0, world, ELITE)
-print "huhu"
 world.setPlayerAgent(agent)
 world.initializeTerrain(obstacles, (0, 0, 0), 4)
 agent.setNavigator(nav1)
@@ -164,7 +164,7 @@ world.addBase(b1)
 thePlayer = LR()
 # thePlayer = SVR()
 
-PCG(world, 0.5, thePlayer)
+PCG(world, 5, thePlayer)
 
 world.setAreaFeature()
 
