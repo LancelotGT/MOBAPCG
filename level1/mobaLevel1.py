@@ -218,7 +218,7 @@ class Hero(MOBAAgent):
 		return None
 
         def upgrade(self):
-                self.level += 10
+                self.level += 5
 
 	def reinit(self):
 		self.level = 0

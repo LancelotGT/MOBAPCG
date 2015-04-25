@@ -36,7 +36,7 @@ def PCG(world, score, model):
     coeff -= 0.05
     features[2] = features[0]*coeff
 
-  features[1] = (score - features[0]*coeefs[0] - features[2]*coeffs[2])/coeffs[1]
+  features[1] = (score - features[0]*coeffs[0] - features[2]*coeffs[2])/coeffs[1]
   towerhitpoints = 50 + 25*(features[1]/3)
   towerbulletdamage = ((features[1]%3)+2)*5
 
@@ -58,16 +58,13 @@ def PCG(world, score, model):
     while ( (not isGood(towerLoc, world, 50))
             or (distance(towerLoc, (25, 25)) > 990)
             or (not isFar(towers[0:i], towerLoc, coeff)) ) :
-        print towerLoc
-        print isGood(towerLoc, world, 50)
-        print distance(towerLoc, (25, 25))
         towerLoc = (random.randint(0, world.getDimensions()[0]), random.randint(0, world.getDimensions()[1]))
 
     towers.append(towerLoc)
 
   for tower in towers :
     theTower = Tower(TOWER, tower, world, 1, towerhitpoints)
-    theTower.setDamage(towerbulletdamage)
+    TOWEREBULLETDAMAGE = towerbulletdamage
     world.addTower(theTower)
     
   world.setAreaFeature()
@@ -121,9 +118,6 @@ def PCG(world, score, model):
     if (abs(world.areaFeature-previousAreaFeature) < 0.05) :
       break
 
-  features[1] = score - coeffs[0]*features[0] - coeffs[2]*features[2] - coeffs[3]*world.areaFeature
-
-  print "la"
   print features
   return features
 

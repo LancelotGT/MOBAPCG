@@ -556,9 +556,6 @@ class Tower(Mover):
     def setTeam(self, team):
         self.team = team
 
-    def setDamage(self, damage):
-        self.bulletclass.setDamage(damage)
-
     def damage(self, amount):
         self.hitpoints = self.hitpoints - amount
         if self.hitpoints <= 0:
