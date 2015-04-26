@@ -54,6 +54,8 @@ def PCG(world, score, model):
 
   BIGBULLETDAMAGE = 5
   TOWEREBULLETDAMAGE = int(round(BIGBULLETDAMAGE / features[1]))
+  if TOWEREBULLETDAMAGE < 10:
+    TOWEREBULLETDAMAGE = 10
   towerhitpoints = 50
 
   ### PCG part
@@ -106,8 +108,7 @@ def PCG(world, score, model):
         dists.append(0)
       else :
         dists.append(distance(tower, loc1) + distance(tower, loc2))
-      locs.append(loc1)
-      locs.append(loc2)
+      locs.append((loc1, loc2))
     
     index = dists.index(max(dists))
     if (dists[index] == 0) :
