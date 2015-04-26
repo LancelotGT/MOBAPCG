@@ -11,6 +11,7 @@ from modules import *
 
 TOWERHITPOINTS = 50
 TOWERBULLETDAMAGE = 15
+BIGBULLETDAMAGE = 4
 
 ######################
 ### MOBABullet

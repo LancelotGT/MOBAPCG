@@ -9,7 +9,7 @@ from modules import *
 ### - MOBABulletse tell MOBAAgents who did the damage
 ### - MOBAAgent.creditKill, Hero.creditKill
 
-
+BIGBULLETDAMAGE = 5
 TOWERHITPOINTS = 50
 TOWERBULLETDAMAGE = 10
 
