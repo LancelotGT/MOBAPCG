@@ -49,6 +49,9 @@ def PCG(world, score, model):
   # model.testScore(features)
   # towerhitpoints = 50 + 25*(features[1]/3)
   
+  if features[0] <= 0:
+    features = (1, features[1], features[2])
+    
   if features[1] < 0.1:
     features = (features[0], 0.1, features[2])
 
@@ -57,6 +60,12 @@ def PCG(world, score, model):
   if TOWEREBULLETDAMAGE < 10:
     TOWEREBULLETDAMAGE = 10
   towerhitpoints = 50
+
+  world.levelDifficulty["numOfTower"] = features[0]
+  world.levelDifficulty["powerOfTower"] = TOWERBULLETDAMAGE
+  world.levelDifficulty["powerOfBase"] = BASEBULLETDAMAGE
+  world.levelDifficulty["powerOfHero"] = BIGBULLETDAMAGE
+  world.levelDifficulty["healthOfHero"] = 50
 
   ### PCG part
   towers = []
