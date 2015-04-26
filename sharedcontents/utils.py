@@ -359,11 +359,7 @@ def writeGameStatistics(world, winning):
     print "Time Elapse: ", timeElapse
 
     # calculate score for the game
-    score = float(world.damageDealt) / (1 + math.sqrt(world.damageTaken))
-    if winning == True:
-        score = score / (1 + timeElapse / world.totalTime)
-    else:
-        score = score / 2
+    score = world.totalTime - timeElapse
 
     # score = float(world.damageDealt) / (1 + 0.5 * math.sqrt(world.damageTaken))
     # score = score / (1 + timeElapse / (world.totalTime))
