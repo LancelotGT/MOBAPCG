@@ -51,7 +51,9 @@ def PCG(world, score, model):
   
   if features[0] <= 0:
     features = (1, features[1], features[2])
-    
+  else if features[0] >= 12:
+    features = (12, features[1], features[2])
+
   if features[1] < 0.1:
     features = (features[0], 0.1, features[2])
 
