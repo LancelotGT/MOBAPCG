@@ -14,12 +14,16 @@ class PlayerModel():
         dataset = np.loadtxt(levelData, delimiter = "\t")
         dataset = np.delete(dataset, 1, 1)
         self.dataset = dataset
-        print "raw data: "
+        print "============================================================"
+        print "Loading dataset: "
         print dataset
         self.row = dataset.shape[0]
         self.col = dataset.shape[1]
         # print self.row, self.col
         new_data = self.normalize()
+        print "Normalized dataset: "
+        print new_data
+        print "============================================================"
         self.dataset_X_train = new_data[:, 0:self.col - 1]
         self.dataset_Y_train = new_data[:, self.col - 1]
 
@@ -49,19 +53,13 @@ class PlayerModel():
             tmp_list.append((maximum, minimum))
 
         self.maxmin_list = tmp_list
-        # print tmp_list
         raw_data = raw_data.T
-        # print raw_data
-        # print new_data
-        # print range(self.col)
-
+        
         # minmax normalization
         for i in range(self.row):
             for j in range(self.col):
                 new_data[i, j] = (raw_data[i, j] - tmp_list[j][1]) / (tmp_list[j][0] - tmp_list[j][1])
 
-        # print "normalize: "
-        print new_data
         return new_data
 
     def normalizeTest(self, data):
@@ -95,6 +93,7 @@ class LR(PlayerModel):
         self.regr.fit(self.dataset_X_train, self.dataset_Y_train)
         print "Finish building player model."
         print('Coefficients: \n', self.regr.coef_)
+        print "============================================================"
 
     def testScore(self, test_X):
         score = self.regr.predict(self.normalizeTest(test_X))
@@ -131,13 +130,11 @@ class SVR(PlayerModel):
         self.regr = SupportVectorRegression(kernel = 'linear', C = 1000)
         self.regr.fit(self.dataset_X_train, self.dataset_Y_train)
         print "Finish building player model."
-        print self.regr.get_params()
+        print "Parameters: ", self.regr.get_params()
+        print "============================================================"
 
     def testScore(self, test_X):
-        # print "testx: ", test_X
         score = self.regr.predict(self.normalizeTest(test_X))
-        # print("Predicted Score1: %.2f" % score)
-        # print("Predicted Score: %.2f" % np.mean(score))
         return np.mean(score)
 
     def getParams(self):

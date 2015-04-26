@@ -45,7 +45,7 @@ def PCG(world, score, model):
   SA = SimulatedAnnealing(model, target)
   features = SA.finalState()
   features = (int(round(features[0])), features[1], features[2]) # take three feature from level.txt
-  print "Optimized features: ", features
+  # print "Optimized features: ", features
   # model.testScore(features)
   # towerhitpoints = 50 + 25*(features[1]/3)
   
@@ -125,11 +125,12 @@ def PCG(world, score, model):
     if (abs(world.areaFeature-previousAreaFeature) < 0.05) :
       break
 
-  print features
+  print "PCG finishes."
+  print "Number of towers: ", features[0]
+  print "Tower damage: ", TOWEREBULLETDAMAGE
+  print "Area features: ", features[2]
+  print "============================================================"
   return features
-
-
-
 
 
 def isGood(point, world, threshold):

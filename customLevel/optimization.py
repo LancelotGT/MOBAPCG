@@ -12,13 +12,11 @@ class SimulatedAnnealing():
         minmaxList = model.getMinMaxList()
         self.minmaxList = minmaxList
         self.dim = model.getColumns()
-        print "dimension: ", self.dim
+        # print "dimension: ", self.dim
         self.alpha = 1.0 * startTemperature
         s0 = np.zeros(self.dim)
         for i in range(self.dim):
             s0[i] = minmaxList[i][1] + random.random() * (minmaxList[i][0] - minmaxList[i][1])
-        print "=================================="
-        print "=================================="
         print "start simulated annealing: "
         print "start point: ", s0
         s = copy.deepcopy(s0)
@@ -53,9 +51,8 @@ class SimulatedAnnealing():
         print "Simulated annealing finished. "
         print "Total iterations: ", count
         print "Final state: ", self.s_final
-        print "score: ", self.__E(self.s_final)
-        print "=================================="
-        print "=================================="
+        print "Optimized score: ", self.__E(self.s_final)
+        print "============================================================"
 
     def __temperature(self, T):
         return T - self.stepsize
