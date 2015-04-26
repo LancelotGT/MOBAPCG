@@ -540,7 +540,7 @@ class Tower(Mover):
     ### firerate: how often the tower can fire
     ### firetimer: time lapsed since last fire
 
-    def __init__(self, image, position, world, team = None, hitpoints = TOWERHITPOINTS, firerate = TOWERFIRERATE, bulletclass = TowerBullet):
+    def __init__(self, image, position, world, team = None, hitpoints = TOWERHITPOINTS, attack = TOWERBULLETDAMAGE, firerate = TOWERFIRERATE, bulletclass = TowerBullet):
         Mover.__init__(self, image, position, 0, 0, world)
         self.team = team
         self.hitpoints = hitpoints
@@ -549,6 +549,7 @@ class Tower(Mover):
         self.canfire = True
         self.bulletclass = bulletclass
         self.maxHitPoints = hitpoints
+        self.attack = attack
 
     def getTeam(self):
         return self.team
@@ -595,6 +596,7 @@ class Tower(Mover):
     def shoot(self):
         if self.canfire:
             bullet = self.bulletclass(self.rect.center, self.orientation, self.world)
+            bullet.setDamage(self.attack)
             bullet.setOwner(self)
             self.world.addBullet(bullet)
             self.canfire = False

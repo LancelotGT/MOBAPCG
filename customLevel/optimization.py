@@ -1,4 +1,5 @@
 from model.PlayerModel import SVR
+from model.PlayerModel import LR
 import numpy as np
 import random, math, copy
 
@@ -11,6 +12,7 @@ class SimulatedAnnealing():
         minmaxList = model.getMinMaxList()
         self.minmaxList = minmaxList
         self.dim = model.getColumns()
+        print "dimension: ", self.dim
         self.alpha = 1.0 * startTemperature
         s0 = np.zeros(self.dim)
         for i in range(self.dim):
@@ -61,7 +63,8 @@ class SimulatedAnnealing():
     def __neighbor(self):
         s_next = np.zeros(self.dim)
         for i in range(self.dim):
-            s_next[i] = self.minmaxList[i][1] + random.random() * (self.minmaxList[i][0] - self.minmaxList[i][1])
+            s_next[i] = (self.minmaxList[i][1] + self.minmaxList[i][0]) / 2 + (2 * random.random() - 1) * (self.minmaxList[i][0] - self.minmaxList[i][1])
+        # print "neighbor: ", s_next
         return s_next
 
     def __E(self, s):
@@ -75,6 +78,7 @@ class SimulatedAnnealing():
         return self.s_final
 
 if __name__ == "__main__":
-    model = SVR()
-    SA = SimulatedAnnealing(model, 0.4)
+    # model = SVR()
+    model = LR()
+    SA = SimulatedAnnealing(model, 0.5)
     s = SA.finalState()

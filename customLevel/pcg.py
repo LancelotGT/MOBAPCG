@@ -49,10 +49,13 @@ def PCG(world, score, model):
   # model.testScore(features)
   # towerhitpoints = 50 + 25*(features[1]/3)
   
+  if features[1] < 0.1:
+    features = (features[0], 0.1, features[2])
+
   BIGBULLETDAMAGE = 5
-  towerbulletdamage = int(round(BIGBULLETDAMAGE / features[1]))
+  TOWEREBULLETDAMAGE = int(round(BIGBULLETDAMAGE / features[1]))
   towerhitpoints = 50
-  
+
   ### PCG part
   towers = []
   
@@ -67,8 +70,7 @@ def PCG(world, score, model):
     towers.append(towerLoc)
 
   for tower in towers :
-    theTower = Tower(TOWER, tower, world, 1, towerhitpoints)
-    TOWEREBULLETDAMAGE = towerbulletdamage
+    theTower = Tower(TOWER, tower, world, 1, towerhitpoints, TOWEREBULLETDAMAGE)
     world.addTower(theTower)
     
   world.setAreaFeature()
@@ -83,14 +85,14 @@ def PCG(world, score, model):
     for tower in towers :
       loc1 = (0,0)
       loc2 = (0,0)
-      first = true
+      first = True
       
       for otherTower in towers :
         if tower == otherTower :
           continue
         if first :
           loc1 = otherTower
-          first = false
+          first = False
 
         if (distance(tower, loc1) > distance(tower, otherTower)):
           loc2 = loc1
@@ -104,7 +106,8 @@ def PCG(world, score, model):
         dists.append(0)
       else :
         dists.append(distance(tower, loc1) + distance(tower, loc2))
-      locs.append(loc1, loc2)
+      locs.append(loc1)
+      locs.append(loc2)
     
     index = dists.index(max(dists))
     if (dists[index] == 0) :

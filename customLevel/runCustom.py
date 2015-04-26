@@ -161,10 +161,11 @@ b1.setNavigator(nav1)
 world.addBase(b1)
 
 ### use one of the two models
-# thePlayer = LR()
-thePlayer = SVR()
+thePlayer = LR()
+# thePlayer = SVR()
+print thePlayer.getDataset()
 
-PCG(world, 1.0, thePlayer)
+PCG(world, 0.05, thePlayer)
 
 world.setAreaFeature()
 

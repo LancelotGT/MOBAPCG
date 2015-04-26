@@ -78,7 +78,7 @@ class PlayerModel():
 
     ### return number of columns of input data
     def getColumns(self):
-        return self.col
+        return self.col - 1
 
     ### return number of rows of input data
     def getRows(self):
@@ -128,7 +128,7 @@ class SVR(PlayerModel):
     def __init__(self):
         PlayerModel.__init__(self)
         # configure support vector regression and start training
-        self.regr = SupportVectorRegression(kernel = 'rbf', C = 1)
+        self.regr = SupportVectorRegression(kernel = 'linear', C = 1000)
         self.regr.fit(self.dataset_X_train, self.dataset_Y_train)
         print "Finish building player model."
         print self.regr.get_params()
