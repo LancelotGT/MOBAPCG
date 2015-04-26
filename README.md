@@ -1,7 +1,7 @@
 CS 7632 Game AI final project
 ==========
 
-Procedural Content Generation for MOBA (DOTA-like) Game
+Procedural Content Generation for MOBA Game
 -----------------------------------------------------------
 
 ### Install package dependencies and configuration files (MacOS)
@@ -38,3 +38,5 @@ This repo is for Game AI final project. The goal of this project is to implement
 04/21 Write two python wrappers for linear regression and support vector regression, based on Scikit-Learn.
 
 04/22 Implement Simulated Annealing from scratch to do optimization
+
+04/26 Initial version of PCG finished
