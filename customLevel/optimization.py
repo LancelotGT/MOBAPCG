@@ -7,6 +7,7 @@ class SimulatedAnnealing():
 
     def __init__(self, model, target, startTemperature = 2000, stepsize = 1, threshold = 0.01):
         self.model = model
+        self.target = target
         self.stepsize = stepsize
         self.kmax = startTemperature
         minmaxList = model.getMinMaxList()
@@ -31,7 +32,7 @@ class SimulatedAnnealing():
             # print "s: ", s
             count += 1
             T = self.__temperature(T)
-            s_new = self.__neighbor()
+            s_new = self.__neighbor(s)
             s_score = self.__E(s)
             s_new_score = self.__E(s_new)
             # print "s score: ", s_score
@@ -57,11 +58,11 @@ class SimulatedAnnealing():
     def __temperature(self, T):
         return T - self.stepsize
 
-    def __neighbor(self):
-        s_next = np.zeros(self.dim)
+    def __neighbor(self, state):
+        s_next = self.model.normalizeTest(state)
         for i in range(self.dim):
             s_next[i] = ( (self.minmaxList[i][1] + self.minmaxList[i][0]) + (2 * random.random() - 1) * (self.minmaxList[i][0] - self.minmaxList[i][1]) ) / 2
-        # print "neighbor: ", s_next
+        #print "neighbor: ", s_next
         return s_next
 
     def __E(self, s):

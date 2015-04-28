@@ -524,7 +524,7 @@ class TDBase(Base):
         print "base dies", self
         self.world.deleteBase(self)
         print "Congratulations, you win!"
-        writeGameStatistics(self.world, True) 
+        #writeGameStatistics(self.world, True) 
         sys.exit(0)
 
 

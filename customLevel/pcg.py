@@ -20,7 +20,7 @@ def isFar(towers, towerLoc, coeff) :
 def PCG(world, score, model):
 
   # features = [random.randint(4, 12), random.randint(2,5)]
-  coeff = random.uniform(0.6, 1)
+  # coeff = random.uniform(0.6, 1)
   # features.append(features[0]*coeff)
 
   # coeffs = model.getParams()
@@ -48,26 +48,12 @@ def PCG(world, score, model):
   # print "Optimized features: ", features
   # model.testScore(features)
   # towerhitpoints = 50 + 25*(features[1]/3)
-  
-  if features[0] <= 0:
-    features = (1, features[1], features[2])
-  elif features[0] >= 12:
-    features = (12, features[1], features[2])
-
-  if features[1] < 0.1:
-    features = (features[0], 0.1, features[2])
 
   BIGBULLETDAMAGE = 5
-  TOWEREBULLETDAMAGE = int(round(BIGBULLETDAMAGE / features[1]))
+  TOWEREBULLETDAMAGE = features[1] #int(round(BIGBULLETDAMAGE / features[1]))
   if TOWEREBULLETDAMAGE < 10:
     TOWEREBULLETDAMAGE = 10
   towerhitpoints = 50
-
-  world.levelDifficulty["numOfTower"] = features[0]
-  world.levelDifficulty["powerOfTower"] = TOWERBULLETDAMAGE
-  world.levelDifficulty["powerOfBase"] = BASEBULLETDAMAGE
-  world.levelDifficulty["powerOfHero"] = BIGBULLETDAMAGE
-  world.levelDifficulty["healthOfHero"] = 50
 
   ### PCG part
   towers = []
@@ -77,13 +63,13 @@ def PCG(world, score, model):
     towerLoc = (random.randint(0, world.getDimensions()[0]), random.randint(0, world.getDimensions()[1]))
     while ( (not isGood(towerLoc, world, 50))
             or (distance(towerLoc, (25, 25)) > 990)
-            or (not isFar(towers[0:i], towerLoc, coeff)) ) :
+            or (not isFar(towers[0:i], towerLoc, features[2])) ) :
         towerLoc = (random.randint(0, world.getDimensions()[0]), random.randint(0, world.getDimensions()[1]))
 
     towers.append(towerLoc)
 
   for tower in towers :
-    theTower = Tower(TOWER, tower, world, 1, towerhitpoints, TOWEREBULLETDAMAGE)
+    theTower = Tower(TOWER, tower, world, 1, towerhitpoints, TOWERBULLETDAMAGE)
     world.addTower(theTower)
     
   world.setAreaFeature()
@@ -96,51 +82,64 @@ def PCG(world, score, model):
     dists = []
 
     for tower in towers :
-      loc1 = (0,0)
-      loc2 = (0,0)
-      first = True
+      loc1 = (-1000,-1000)
+      loc2 = (-1000,-1000)
       
       for otherTower in towers :
         if tower == otherTower :
           continue
-        if first :
-          loc1 = otherTower
-          first = False
+
+        if (not rayTraceWorld(tower, otherTower, world.getLines()) ) :
+          continue
 
         if (distance(tower, loc1) > distance(tower, otherTower)):
           loc2 = loc1
           loc1 = otherTower
         elif (distance(tower, loc2) > distance(tower, otherTower)):
           loc2 = otherTower
-          
-      if ( (not rayTraceWorld(tower, loc1, world.getLines()))
-           or (not rayTraceWorld(tower, loc2, world.getLines()))
-           or (not rayTraceWorld(loc1, loc2, world.getLines())) ) :
+
+      if (loc2 == (-1000,-1000)) :
         dists.append(0)
       else :
         dists.append(distance(tower, loc1) + distance(tower, loc2))
       locs.append((loc1, loc2))
-    
+
+
     index = dists.index(max(dists))
     if (dists[index] == 0) :
       break
       
     if (distance(locs[index][0], towers[index]) > 2*TOWERBULLETRANGE) :
       thePosition = ((2*locs[index][0][0] + towers[index][0])/3, (2*locs[index][0][1] + towers[index][1])/3)
-      world.getTowers()[index].rect.move(thePosition)
+      world.deleteTower(world.getTowers()[index])
+      theTower = Tower(TOWER, thePosition, world, 1, towerhitpoints, TOWERBULLETDAMAGE)
+      world.addTower(theTower)
+      towers.pop(index)
+      towers.append(thePosition)
+      
     else :
       thePosition = ((locs[index][0][0] + locs[index][1][0])/2, (locs[index][0][1] + locs[index][1][1])/2)
-      world.getTowers()[index].rect.move(thePosition)
+      world.deleteTower(world.getTowers()[index])
+      theTower = Tower(TOWER, thePosition, world, 1, towerhitpoints, TOWERBULLETDAMAGE)
+      world.addTower(theTower)
+      towers.pop(index)
+      towers.append(thePosition)
 
     previousAreaFeature = world.areaFeature
     world.setAreaFeature()
     if (abs(world.areaFeature-previousAreaFeature) < 0.05) :
       break
 
+  world.levelDifficulty["numOfTower"] = features[0]
+  world.levelDifficulty["powerOfTower"] = features[1]
+  world.levelDifficulty["powerOfBase"] = BASEBULLETDAMAGE
+  world.levelDifficulty["powerOfHero"] = BIGBULLETDAMAGE
+  world.levelDifficulty["healthOfHero"] = 50
+
   print "PCG finishes."
   print "Number of towers: ", features[0]
   print "Tower damage: ", TOWEREBULLETDAMAGE
-  print "Area features: ", features[2]
+  print "Area features: ", world.areaFeature/features[0] #features[2]
   print "============================================================"
   return features
 

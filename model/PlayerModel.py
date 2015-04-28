@@ -12,7 +12,7 @@ class PlayerModel():
         # get and parse the data
         levelData = open(LEVELPATH)
         dataset = np.loadtxt(levelData, delimiter = "\t")
-        dataset = np.delete(dataset, 1, 1)
+        dataset = np.delete(dataset, 2, 1)
         self.dataset = dataset
 
         for row in dataset :
