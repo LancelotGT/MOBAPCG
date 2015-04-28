@@ -60,7 +60,7 @@ class SimulatedAnnealing():
     def __neighbor(self):
         s_next = np.zeros(self.dim)
         for i in range(self.dim):
-            s_next[i] = (self.minmaxList[i][1] + self.minmaxList[i][0]) / 2 + (2 * random.random() - 1) * (self.minmaxList[i][0] - self.minmaxList[i][1])
+            s_next[i] = ( (self.minmaxList[i][1] + self.minmaxList[i][0]) + (2 * random.random() - 1) * (self.minmaxList[i][0] - self.minmaxList[i][1]) ) / 2
         # print "neighbor: ", s_next
         return s_next
 

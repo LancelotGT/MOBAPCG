@@ -164,7 +164,7 @@ world.addBase(b1)
 thePlayer = LR()
 # thePlayer = SVR()
 
-PCG(world, 0.3, thePlayer)
+PCG(world, 0.7, thePlayer)
 
 world.setAreaFeature()
 
