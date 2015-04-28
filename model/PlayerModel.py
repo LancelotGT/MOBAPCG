@@ -14,6 +14,10 @@ class PlayerModel():
         dataset = np.loadtxt(levelData, delimiter = "\t")
         dataset = np.delete(dataset, 1, 1)
         self.dataset = dataset
+
+        for row in dataset :
+            row[2] = row[2]/row[0]
+
         print "============================================================"
         print "Loading dataset: "
         print dataset
