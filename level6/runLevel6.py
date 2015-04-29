@@ -1,8 +1,5 @@
 import os, sys, pygame, math, numpy, random, time, copy, compileall
 from pygame.locals import *
-
-# sys.path.append("/home/ubuntu/Desktop/MOBAPCG")
-
 from mobaLevel6 import *
 
 import imp

@@ -29,7 +29,6 @@ class SimulatedAnnealing():
         T = startTemperature
         count = 0
         while T > 1:
-            # print "s: ", s
             count += 1
             T = self.__temperature(T)
             s_new = self.__neighbor(s)
@@ -43,11 +42,9 @@ class SimulatedAnnealing():
             if s_new_score > s_score:
                 s = s_new
             else:
-                # print "probability: ", P(s_score, s_new_score)
                 if P(s_score, s_new_score) > random.random():
                     s = s_new
 
-        # print "Target score: ", self.minmaxList[-1][1] + self.target*(self.minmaxList[-1][0] - self.minmaxList[-1][1])
         self.s_final = s
         self.count = count
         print "Simulated annealing finished. "
@@ -68,10 +65,6 @@ class SimulatedAnnealing():
 
     def __E(self, s):
         return self.model.testScore(s)
-
-    # def __P(self, e_s, e_new):
-    #     print "probability: ", math.exp(self.alpha * (e_new - e_s) / self.T)
-    #     return math.exp(self.alpha * (e_new - e_s) / self.T)
 
     def finalState(self):
         return self.s_final

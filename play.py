@@ -1,5 +1,5 @@
 ### This is the main function of the game
-### It will first let the player to play 6 predefined levels and give the customized level.
+### It will first let the player to play 6 pre-defined levels and give the customized level.
 import os
 
 if __name__ == "__main__":

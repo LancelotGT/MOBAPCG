@@ -35,20 +35,11 @@ def PCG(world, score, model):
   SA = SimulatedAnnealing(model, target)
   features = SA.finalState()
   features = (int(round(features[0])), features[1], features[2]) # take three feature from level.txt
-  # print "Optimized features: ", features
-  # model.testScore(features)
-  # towerhitpoints = 50 + 25*(features[1]/3)
 
   towerPower = (int)(features[1])
 
   towerhitpoints = 50 + 25*(towerPower/3)
   towerbulletdamage = ((towerPower%3)+2)*5
-
-  #BIGBULLETDAMAGE = 5
-  #TOWEREBULLETDAMAGE = features[1] #int(round(BIGBULLETDAMAGE / features[1]))
-  #if TOWEREBULLETDAMAGE < 10:
-    #TOWEREBULLETDAMAGE = 10
-  #towerhitpoints = 50
 
   ### PCG part
   towers = []

@@ -1,12 +1,11 @@
 CS 7632 Game AI final project
 ==========
-
-Procedural Content Generation for MOBA Game
-
 Author:
 
 Ning Wang
 Guillaume Orvain
+
+Procedural Content Generation for MOBA Game
 -----------------------------------------------------------
 
 ### Install package dependencies and configuration files (MacOS)
@@ -31,8 +30,7 @@ Guillaume Orvain
 ### How to run
 ```
 % There are several modes in the game.
-% If you want to get a whole customized game. Run bash restart.sh first to clear the data.
-% To run the game with PCG, use python play.py.
+% To get a whole customized game. Run bash restart.sh first to clear the data. Then use python play.py
 % It will run the 6 predefined levels and then customize the level for you.
 % To run the customized game directly swith the pre-generated data, use python customLevel/runCustom.py. 
 % Make sure to run the game in MOBAPCG/ directory so that all the packages required can be found.
