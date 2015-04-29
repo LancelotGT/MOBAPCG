@@ -1,4 +1,4 @@
-import pygame, math, numpy, random, time, copy
+import sys, pygame, math, numpy, random, time, copy
 from pygame.locals import * 
 from modules import *
 
@@ -9,10 +9,8 @@ from modules import *
 ### - MOBABulletse tell MOBAAgents who did the damage
 ### - MOBAAgent.creditKill, Hero.creditKill
 
-#BIGBULLETDAMAGE = 5
 TOWERHITPOINTS = 50
-TOWERBULLETDAMAGE = 10
-
+TOWERBULLETDAMAGE = 20
 
 ######################
 ### MOBABullet
@@ -197,7 +195,7 @@ class Hero(MOBAAgent):
 			if angle == None:
 				angle = corerandom.uniform(0, 360)
 			vector = (math.cos(math.radians(angle)), -math.sin(math.radians(angle)))
-			self.rect = self.rect.move(vector[0]*self.getRadius()*1.5, vector[1]*self.getRadius()*1.5)
+			self.rect = self.rect.move(vector[0]*self.getRadius()*3, vector[1]*self.getRadius()*3)
 			self.canDodge = False
 
 	def areaEffect(self):
@@ -218,7 +216,7 @@ class Hero(MOBAAgent):
 		return None
 
         def upgrade(self):
-                self.level += 5
+                self.level += 10
 
 	def reinit(self):
 		self.level = 0
@@ -555,6 +553,7 @@ class Tower(Mover):
 	
 	def setTeam(self, team):
 		self.team = team
+
 
 	def damage(self, amount):
 		self.hitpoints = self.hitpoints - amount

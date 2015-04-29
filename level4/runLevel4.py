@@ -194,10 +194,8 @@ b2.setNavigator(nav2)
 world.addBase(b2)
 
 world.levelDifficulty["numOfTower"] = 7
-world.levelDifficulty["powerOfTower"] = TOWERBULLETDAMAGE
-
-# world.levelDifficulty["powerOfTower"] = 3*(TOWERHITPOINTS-50)/25 + TOWERBULLETDAMAGE/5 - 1
- 
+# world.levelDifficulty["powerOfTower"] = TOWERBULLETDAMAGE
+world.levelDifficulty["powerOfTower"] = 3*(TOWERHITPOINTS-50)/25 + TOWERBULLETDAMAGE/5 - 1
 world.levelDifficulty["powerOfBase"] = BASEBULLETDAMAGE
 world.levelDifficulty["powerOfHero"] = BIGBULLETDAMAGE
 world.levelDifficulty["healthOfHero"] = HEROHITPOINTS

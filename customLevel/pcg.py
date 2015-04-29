@@ -11,7 +11,7 @@ def isFar(towers, towerLoc, coeff) :
 
   thebool = True
   for tower in towers :
-    if (distance(tower, towerLoc) < 0.6*coeff*TOWERBULLETRANGE) :
+    if (distance(tower, towerLoc) < 1.2*coeff*TOWERBULLETRANGE) :
       return False
 
   return thebool
@@ -60,11 +60,16 @@ def PCG(world, score, model):
   # model.testScore(features)
   # towerhitpoints = 50 + 25*(features[1]/3)
 
-  BIGBULLETDAMAGE = 5
-  TOWEREBULLETDAMAGE = features[1] #int(round(BIGBULLETDAMAGE / features[1]))
-  if TOWEREBULLETDAMAGE < 10:
-    TOWEREBULLETDAMAGE = 10
-  towerhitpoints = 50
+  towerPower = (int)(features[1])
+
+  towerhitpoints = 50 + 25*(towerPower/3)
+  towerbulletdamage = ((towerPower%3)+2)*5
+
+  #BIGBULLETDAMAGE = 5
+  #TOWEREBULLETDAMAGE = features[1] #int(round(BIGBULLETDAMAGE / features[1]))
+  #if TOWEREBULLETDAMAGE < 10:
+    #TOWEREBULLETDAMAGE = 10
+  #towerhitpoints = 50
 
   ### PCG part
   towers = []
@@ -80,10 +85,11 @@ def PCG(world, score, model):
     towers.append(towerLoc)
 
   for tower in towers :
-    theTower = Tower(TOWER, tower, world, 1, towerhitpoints, TOWERBULLETDAMAGE)
+    theTower = Tower(TOWER, tower, world, 1, towerhitpoints, towerbulletdamage)
     world.addTower(theTower)
     
   world.setAreaFeature()
+  print world.areaFeature/features[0]
 
   while (world.areaFeature > 1.05*features[2]*features[0]) :
 
@@ -118,21 +124,22 @@ def PCG(world, score, model):
         towerLoc = (random.randint(0, world.getDimensions()[0]), random.randint(0, world.getDimensions()[1]))
 
       world.deleteTower(world.getTowers()[theIndex])
-      theTower = Tower(TOWER, towerLoc, world, 1, towerhitpoints, TOWERBULLETDAMAGE)
+      theTower = Tower(TOWER, towerLoc, world, 1, towerhitpoints, towerbulletdamage)
       world.addTower(theTower)
       towers.insert(theIndex, towerLoc)
 
       world.setAreaFeature()
 
   world.levelDifficulty["numOfTower"] = features[0]
-  world.levelDifficulty["powerOfTower"] = features[1]
+  world.levelDifficulty["powerOfTower"] = towerPower
   world.levelDifficulty["powerOfBase"] = BASEBULLETDAMAGE
   world.levelDifficulty["powerOfHero"] = BIGBULLETDAMAGE
   world.levelDifficulty["healthOfHero"] = 50
 
   print "PCG finishes."
   print "Number of towers: ", features[0]
-  print "Tower damage: ", TOWEREBULLETDAMAGE
+  print "Tower damage: ", towerbulletdamage
+  print "Tower health: ", towerhitpoints
   print "Area features: ", world.areaFeature/features[0] #features[2]
   print "============================================================"
   return features

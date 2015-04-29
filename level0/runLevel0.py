@@ -2,7 +2,8 @@ import os, sys, pygame, math, numpy, random, time, copy, compileall
 from pygame.locals import *
 
 # sys.path.append("/home/ubuntu/Desktop/MOBAPCG")
-from mobaLevel2 import *
+from mobaLevel0 import *
+
 import imp
 
 def importHero2(classFile):
@@ -62,12 +63,18 @@ def importEnemy3(thisClassFile):
 	else:
 		sys.exit("ERROR: Either no enemyAgents3.py file found at " + thisClassFile + " or enemyAgents3.py compilation failed.")
 
+
+
+directory1 = ""
+directory2 = ""
+
 # use the given directorys' classfiles
 # suclassFile1 = "./" + directory1
 # classFile2 = "./" + directory2
-thisClassFile = "./level2/"
+thisClassFile = "./level0/"
 
 nav = AStarNavigator()
+# nav = AStarNavigator()
 
 # imp.reload(moba)
 # mod = reload(sys.modules['moba']) #use imp.reload for Python 3  
@@ -83,7 +90,6 @@ minion2 = importMinion2(thisClassFile)
 enemyMinion1 = importEnemy1(thisClassFile)
 enemyMinion2 = importEnemy2(thisClassFile)
 enemyMinion3 = importEnemy3(thisClassFile)
-
 
 
 # get hero classes from hero modules
@@ -145,11 +151,10 @@ mirror = map(lambda poly: map(lambda point: (dims[0]-point[0], dims[1]-point[1])
 obstacles = obstacles + mirror
 
 
-
 world = MOBAWorld(SEED, dims, dims, 1, 60)
 agent = Hero((1055, 1055), 0, world, ELITE)
 world.setPlayerAgent(agent)
-world.initializeTerrain(obstacles, (0, 0, 0), 4)
+world.initializeTerrain(obstacles, (0, 0, 0), 4, None)
 agent.setNavigator(nav)
 agent.setTeam(2)
 world.debugging = True
@@ -161,22 +166,8 @@ b1 = TDBase(BASE, (25, 25), world, enemyMinion1, enemyMinion2, enemyMinion3, 1)
 b1.setNavigator(nav)
 world.addBase(b1)
 
-t11 = Tower(TOWER, (500, 400), world, 1)
+t11 = Tower(TOWER, (500, 500), world, 1)
 world.addTower(t11)
-t12 = Tower(TOWER, (400, 500), world, 1)
-world.addTower(t12)
-t13 = Tower(TOWER, (700, 400), world, 1)
-world.addTower(t13)
-t14 = Tower(TOWER, (400, 700), world, 1)
-world.addTower(t14)
-t15 = Tower(TOWER, (300, 400), world, 1)
-world.addTower(t15)
-t16 = Tower(TOWER, (400, 300), world, 1)
-world.addTower(t16)
-
-# t15 = Tower(TOWER, (50, 300), world, 1)
-# world.addTower(t15)
-
 
 world.setAreaFeature()
 
@@ -188,12 +179,12 @@ b2 = Base(BASE, (1075, 1075), world, 2, MyAlienMinion, MyAlienHero, BUILDRATE)
 b2.setNavigator(nav)
 world.addBase(b2)
 
-world.levelDifficulty["numOfTower"] = 6
-world.levelDifficulty["powerOfTower"] = 3*(TOWERHITPOINTS-50)/25 + TOWERBULLETDAMAGE/5 - 1
+world.levelDifficulty["numOfTower"] = 1
+world.levelDifficulty["powerOfTower"] =3*(TOWERHITPOINTS-50)/25 + TOWERBULLETDAMAGE/5 - 1 
+world.levelDifficulty["numOfTower"] = 1
 # world.levelDifficulty["powerOfTower"] = TOWERBULLETDAMAGE
 world.levelDifficulty["powerOfBase"] = BASEBULLETDAMAGE
 world.levelDifficulty["powerOfHero"] = BIGBULLETDAMAGE
 world.levelDifficulty["healthOfHero"] = HEROHITPOINTS
-
 
 world.run()

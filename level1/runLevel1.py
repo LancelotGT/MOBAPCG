@@ -185,10 +185,9 @@ b2 = Base(BASE, (1075, 1075), world, 2, MyAlienMinion, MyAlienHero, BUILDRATE)
 b2.setNavigator(nav)
 world.addBase(b2)
 
+world.levelDifficulty["powerOfTower"] =3*(TOWERHITPOINTS-50)/25 + TOWERBULLETDAMAGE/5 - 1 
 world.levelDifficulty["numOfTower"] = 4
-# world.levelDifficulty["powerOfTower"] =3*(TOWERHITPOINTS-50)/25 + TOWERBULLETDAMAGE/5 - 1 
-world.levelDifficulty["numOfTower"] = 4
-world.levelDifficulty["powerOfTower"] = TOWERBULLETDAMAGE
+# world.levelDifficulty["powerOfTower"] = TOWERBULLETDAMAGE
 world.levelDifficulty["powerOfBase"] = BASEBULLETDAMAGE
 world.levelDifficulty["powerOfHero"] = BIGBULLETDAMAGE
 world.levelDifficulty["healthOfHero"] = HEROHITPOINTS
