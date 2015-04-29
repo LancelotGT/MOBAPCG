@@ -1,4 +1,5 @@
 ### This is the main function of the game
+### It will first let the player to play 6 predefined levels and give the customized level.
 import os
 
 if __name__ == "__main__":
@@ -14,5 +15,7 @@ if __name__ == "__main__":
 		os.system("python level4/runLevel4.py")
 	elif numOfGame == 4:
 		os.system("python level5/runLevel5.py")
+	elif numOfGame == 5:
+		os.system("python level6/runLevel6.py")
 	else:
 		os.system("python customLevel/runCustom.py")

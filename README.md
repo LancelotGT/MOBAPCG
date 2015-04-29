@@ -30,11 +30,18 @@ Guillaume Orvain
 
 ### How to run
 ```
-% There are several modes in the game. 
+% There are several modes in the game.
 % If you want to get a whole customized game. Run bash restart.sh first to clear the data.
-% Then to run the game with PCG, use python play.py. It will run the 6 predefined levels and then customize the level for you.
+% To run the game with PCG, use python play.py.
+% It will run the 6 predefined levels and then customize the level for you.
 % To run the customized game directly swith the pre-generated data, use python customLevel/runCustom.py. 
 % Make sure to run the game in MOBAPCG/ directory so that all the packages required can be found.
+```
+
+### How to change target score of PCG
+```
+% To change the target score of PCG, currently the only way is to manually modify the input for PCG 
+% function in customLevel/runCustom.py file line 167.
 ```
 
 ### Explanation
