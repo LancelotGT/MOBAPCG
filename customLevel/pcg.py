@@ -30,27 +30,6 @@ def isFarBis(towers, towerLoc, minDist) :
 
 def PCG(world, score, model):
 
-  # features = [random.randint(4, 12), random.randint(2,5)]
-  # coeff = random.uniform(0.6, 1)
-  # features.append(features[0]*coeff)
-
-  # coeffs = model.getParams()
-
-  # while (model.testScore(features) > score) :
-  #   features[0] -= 1
-  #   features[2] -= coeff
-  # while (model.testScore(features) < score) :
-  #   features[0] += 1 
-  #   features[2] += coeff
-  
-  # while (model.testScore(features) > score) and (coeff > 0.6) :
-  #   coeff -= 0.05
-  #   features[2] = features[0]*coeff
-
-  # features[1] = (score - features[0]*coeffs[0] - features[2]*coeffs[2])/coeffs[1]
-  # towerhitpoints = 50 + 25*(features[1]/3)
-  # towerbulletdamage = ((features[1]%3)+2)*5
-
   ### optimzation part
   target = score
   SA = SimulatedAnnealing(model, target)

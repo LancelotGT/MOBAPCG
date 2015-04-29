@@ -2,6 +2,11 @@ CS 7632 Game AI final project
 ==========
 
 Procedural Content Generation for MOBA Game
+
+Author:
+
+Ning Wang
+Guillaume Orvain
 -----------------------------------------------------------
 
 ### Install package dependencies and configuration files (MacOS)
@@ -25,18 +30,12 @@ Procedural Content Generation for MOBA Game
 
 ### How to run
 ```
-% To run game with PCG, use python play.py
-% To run game without PCG, use python runversus.py
+% There are several modes in the game. 
+% If you want to get a whole customized game. Run bash restart.sh first to clear the data.
+% Then to run the game with PCG, use python play.py. It will run the 6 predefined levels and then customize the level for you.
+% To run the customized game directly swith the pre-generated data, use python customLevel/runCustom.py. 
+% Make sure to run the game in MOBAPCG/ directory so that all the packages required can be found.
 ```
 
 ### Explanation
-This repo is for Game AI final project. The goal of this project is to implement procedural content generation with a MOBA game. The project intends to design a system that uses AI optimization to design maps for different players. The map that is generated is customized to an individual's skill level. That is, players who are more skilled at the game should receive a map that is more challenging, and players that are less skilled should receive a map that is less challenging.
-
-### Development Logs
-04/12 Created three training levels. The entrance of the game is play.py. It will call certain training level according to the current number of finished games. For example, the entrance for level1 is runLevel1.py, and the moba configuration for level 1 is in mobaLevel1.py.
-
-04/21 Write two python wrappers for linear regression and support vector regression, based on Scikit-Learn.
-
-04/22 Implement Simulated Annealing from scratch to do optimization
-
-04/26 Initial version of PCG finished
+This repository is for Game AI final project. The goal of this project is to implement procedural content generation with a MOBA game. The project intends to design a system that uses AI optimization to design maps for different players. The map that is generated is customized to an individual's skill level. That is, players who are more skilled at the game should receive a map that is more challenging, and players that are less skilled should receive a map that is less challenging.
