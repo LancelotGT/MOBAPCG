@@ -524,6 +524,10 @@ class TDBase(Base):
         print "base dies", self
         self.world.deleteBase(self)
         print "Congratulations, you win!"
+        score = float(self.world.damageDealt) / (1 + math.sqrt(self.world.damageTaken))
+        timeElapse = time.clock() - self.world.getStartTime()
+        score = score / (1 + timeElapse / self.world.totalTime)
+        print "Score: ", score
         #writeGameStatistics(self.world, True) 
         sys.exit(0)
 
@@ -743,7 +747,10 @@ class MOBAWorld(GatedWorld):
             self.playerDeaths += 1
             if self.playerDeaths == MAXLIVES:
                 print "Sorry, you lose!"
-                writeGameStatistics(self, False)
+                score = float(self.damageDealt) / (1 + math.sqrt(self.damageTaken))
+                score = score / 2
+                print "Score: ", score
+                #writeGameStatistics(self, False)
                 sys.exit(0)
             else:
                 print "Number of lives left: ", MAXLIVES - self.playerDeaths

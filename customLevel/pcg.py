@@ -89,7 +89,6 @@ def PCG(world, score, model):
     world.addTower(theTower)
     
   world.setAreaFeature()
-  print world.areaFeature/features[0]
 
   while (world.areaFeature > 1.05*features[2]*features[0]) :
 

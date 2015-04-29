@@ -46,7 +46,8 @@ class SimulatedAnnealing():
                 # print "probability: ", P(s_score, s_new_score)
                 if P(s_score, s_new_score) > random.random():
                     s = s_new
-        
+
+        print "Target score: ", self.minmaxList[-1][1] + self.target*(self.minmaxList[-1][0] - self.minmaxList[-1][1])
         self.s_final = s
         self.count = count
         print "Simulated annealing finished. "
