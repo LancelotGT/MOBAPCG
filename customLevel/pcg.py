@@ -17,6 +17,17 @@ def isFar(towers, towerLoc, coeff) :
   return thebool
 
 
+
+def isFarBis(towers, towerLoc, minDist) :
+
+  thebool = True
+  for tower in towers :
+    if (distance(tower, towerLoc) < minDist) :
+      return False
+
+  return thebool
+
+
 def PCG(world, score, model):
 
   # features = [random.randint(4, 12), random.randint(2,5)]
@@ -73,62 +84,45 @@ def PCG(world, score, model):
     world.addTower(theTower)
     
   world.setAreaFeature()
-  
 
+  while (world.areaFeature > 1.05*features[2]*features[0]) :
 
-  while (world.areaFeature > 1.05*features[2]) :
+    prox = numpy.zeros(len(towers))
+    index = 0
 
-    locs = []
-    dists = []
-
-    for tower in towers :
-      loc1 = (-1000,-1000)
-      loc2 = (-1000,-1000)
-      
+    for tower in towers :      
       for otherTower in towers :
         if tower == otherTower :
           continue
-
         if (not rayTraceWorld(tower, otherTower, world.getLines()) ) :
           continue
+        if (distance(tower, otherTower) < 2*TOWERBULLETRANGE):
+          prox[index] += 1
 
-        if (distance(tower, loc1) > distance(tower, otherTower)):
-          loc2 = loc1
-          loc1 = otherTower
-        elif (distance(tower, loc2) > distance(tower, otherTower)):
-          loc2 = otherTower
+      if (prox[index] == 0) :
+        prox[index] = 1
 
-      if (loc2 == (-1000,-1000)) :
-        dists.append(0)
-      else :
-        dists.append(distance(tower, loc1) + distance(tower, loc2))
-      locs.append((loc1, loc2))
+      index += 1
 
+    theIndex = numpy.argmin(prox)
 
-    index = dists.index(max(dists))
-    if (dists[index] == 0) :
-      break
-      
-    if (distance(locs[index][0], towers[index]) > 2*TOWERBULLETRANGE) :
-      thePosition = ((2*locs[index][0][0] + towers[index][0])/3, (2*locs[index][0][1] + towers[index][1])/3)
-      world.deleteTower(world.getTowers()[index])
-      theTower = Tower(TOWER, thePosition, world, 1, towerhitpoints, TOWERBULLETDAMAGE)
-      world.addTower(theTower)
-      towers.pop(index)
-      towers.append(thePosition)
-      
-    else :
-      thePosition = ((locs[index][0][0] + locs[index][1][0])/2, (locs[index][0][1] + locs[index][1][1])/2)
-      world.deleteTower(world.getTowers()[index])
-      theTower = Tower(TOWER, thePosition, world, 1, towerhitpoints, TOWERBULLETDAMAGE)
-      world.addTower(theTower)
-      towers.pop(index)
-      towers.append(thePosition)
 
     previousAreaFeature = world.areaFeature
-    world.setAreaFeature()
-    if (abs(world.areaFeature-previousAreaFeature) < 0.05) :
-      break
+
+    while (world.areaFeature > 0.97*previousAreaFeature) :
+      towers.pop(theIndex)
+      towerLoc = (random.randint(0, world.getDimensions()[0]), random.randint(0, world.getDimensions()[1]))
+      while ( (not isGood(towerLoc, world, 50))
+              or (distance(towerLoc, (25, 25)) > 990)
+              or (not isFarBis(towers[0:len(towers)-1], towerLoc, 175)) ) :
+        towerLoc = (random.randint(0, world.getDimensions()[0]), random.randint(0, world.getDimensions()[1]))
+
+      world.deleteTower(world.getTowers()[theIndex])
+      theTower = Tower(TOWER, towerLoc, world, 1, towerhitpoints, TOWERBULLETDAMAGE)
+      world.addTower(theTower)
+      towers.insert(theIndex, towerLoc)
+
+      world.setAreaFeature()
 
   world.levelDifficulty["numOfTower"] = features[0]
   world.levelDifficulty["powerOfTower"] = features[1]
