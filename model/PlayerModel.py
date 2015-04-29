@@ -56,6 +56,9 @@ class PlayerModel():
                     minimum = num
             tmp_list.append((maximum, minimum))
 
+        tmp_list[0] = (12, 4)
+        tmp_list[1] = (9, 1)
+        tmp_list[3] = (tmp_list[3][0] + 4, tmp_list[3][1] -2)
         self.maxmin_list = tmp_list
         raw_data = raw_data.T
         
